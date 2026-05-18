@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Mariage de Rêve - Budget en Ariary & Salon d'Essayage</title>
+    <title>Mon Mariage de Rêve - Budget en Ariary, Cabine d'Essayage & Style IA</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Playfair Display -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght=0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -55,7 +55,7 @@
                                 Connexion...
                             </span>
                         </div>
-                        <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Planificateur en Ariary (Ar) & Essayage</p>
+                        <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Planificateur en Ariary (Ar) & Essayage IA</p>
                     </div>
                 </div>
                 <!-- Navigation Tabs -->
@@ -70,7 +70,7 @@
                     </button>
                     <button onclick="switchTab('fitting')" id="tab-fitting" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
                         <i class="fa-solid fa-shirt"></i>
-                        <span>Cabine d'Essayage</span>
+                        <span>Cabine d'Essayage IA</span>
                     </button>
                 </nav>
             </div>
@@ -135,19 +135,22 @@
                     <div class="mt-2 text-xs text-emerald-500 font-medium">Fonds déjà versés aux prestataires</div>
                 </div>
 
-                <!-- Reste à Payer Card -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                <!-- Reste à Payer Card (CRITICAL UPDATE FOR USER) -->
+                <div class="bg-gradient-to-br from-rose-50 to-amber-50 p-6 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-slate-400">Solde Restant</span>
-                        <div class="bg-rose-50 text-rose-500 p-2 rounded-xl"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <span class="text-sm font-bold text-rose-700">Reste à Payer aux Prestataires</span>
+                        <div class="bg-rose-500 text-white p-2 rounded-xl shadow-sm"><i class="fa-solid fa-hourglass-half"></i></div>
                     </div>
                     <div class="mt-4">
-                        <span id="stat-remaining-budget" class="text-xl sm:text-2xl font-bold text-slate-800">35 000 000 Ar</span>
+                        <span id="stat-remaining-to-pay" class="text-xl sm:text-2xl font-extrabold text-rose-800">0 Ar</span>
                     </div>
-                    <div class="mt-2 text-xs text-slate-400" id="stat-remaining-subtitle">Disponible pour d'autres dépenses</div>
+                    <div class="mt-2 text-xs text-rose-600 font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info"></i> Somme qu'il vous reste à solder
+                    </div>
                 </div>
             </div>
 
+            <!-- Extra stats and budget progress graph -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Visual Budget Chart Ring -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
@@ -179,7 +182,7 @@
                         <div class="border-l border-slate-100 h-8"></div>
                         <div>
                             <span class="block font-bold text-blue-500" id="stat-percent-remaining">100%</span>
-                            <span class="text-slate-400">Libre</span>
+                            <span class="text-slate-400">Libre (Budget)</span>
                         </div>
                     </div>
                 </div>
@@ -204,8 +207,8 @@
                 <div class="flex items-center space-x-4">
                     <span class="text-3xl">👗</span>
                     <div>
-                        <h4 class="font-bold text-slate-800 text-sm">Prêt pour les essayages ?</h4>
-                        <p class="text-xs text-slate-500">Mettez une photo de votre visage pour l'aligner instantanément sur des robes de créateurs ou des costumes élégants.</p>
+                        <h4 class="font-bold text-slate-800 text-sm">Prêt pour les essayages avec conseil IA ?</h4>
+                        <p class="text-xs text-slate-500">Mettez une photo de votre visage, importez vos propres tenues personnalisées ou utilisez les nôtres, puis demandez conseil à Gemini Styliste !</p>
                     </div>
                 </div>
                 <button onclick="switchTab('fitting')" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xs font-semibold px-5 py-3 rounded-xl shadow-md transition-all whitespace-nowrap">
@@ -275,6 +278,7 @@
                                 <th class="py-4 px-4">Catégorie</th>
                                 <th class="py-4 px-4 text-right">Budget Estimé</th>
                                 <th class="py-4 px-4 text-right">Montant Payé</th>
+                                <th class="py-4 px-4 text-right">Reste à payer</th>
                                 <th class="py-4 px-4 text-center">Statut</th>
                                 <th class="py-4 px-6 text-right">Actions</th>
                             </tr>
@@ -293,12 +297,12 @@
             </div>
         </div>
 
-        <!-- FITTING TAB (VIRTUAL CABIN) -->
+        <!-- FITTING TAB (VIRTUAL CABIN & GEMINI ADVISOR) -->
         <div id="view-fitting" class="hidden space-y-8 animate-fadeIn">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Salon d'Essayage Virtuel</h2>
-                    <p class="text-sm text-slate-400">Positionnez et ajustez votre visage sur un modèle de costume ou de robe.</p>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Salon d'Essayage Virtuel & Gemini Styliste</h2>
+                    <p class="text-sm text-slate-400">Positionnez votre visage sur nos mannequins ou importez vos propres tenues, puis demandez conseil à l'IA.</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="downloadSimulation()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-emerald-100 transition-all flex items-center gap-2">
@@ -339,9 +343,19 @@
                         </div>
                     </div>
 
-                    <!-- Outfit Selection Card -->
+                    <!-- Outfit Selection Card WITH CUSTOM IMPORT BUTTON -->
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-shirt text-rose-500"></i> Étape 2 : Choisir la Tenue</h3>
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-shirt text-rose-500"></i> Étape 2 : Tenue</h3>
+                            
+                            <!-- BROWSE CUSTOM OUTFIT (USER DIRECTIVE) -->
+                            <label class="cursor-pointer bg-rose-50 hover:bg-rose-100 text-rose-600 text-[10px] font-bold px-2.5 py-1.5 rounded-lg border border-rose-200 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-folder-open"></i> Parcourir Vêtement
+                                <input type="file" id="outfit-image-loader" accept="image/*" class="hidden" onchange="loadCustomOutfit(event)">
+                            </label>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-[-5px]">Sélectionnez un modèle ou importez votre propre image de robe ou de costume (PNG transparent recommandé).</p>
+                        
                         <div class="grid grid-cols-2 gap-3" id="outfit-picker">
                             <!-- Dynamically added outfit templates -->
                         </div>
@@ -352,7 +366,7 @@
                 <div class="lg:col-span-5 flex flex-col items-center bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative">
                     <div class="w-full flex justify-between items-center mb-4">
                         <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Prévisualisation d'essayage</span>
-                        <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-circle-info mr-1"></i>Glissez & Déplacez sur le canevas</span>
+                        <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-circle-info mr-1"></i>Glissez-déposez le visage</span>
                     </div>
 
                     <!-- Canvas container for responsive auto-scale layout -->
@@ -366,11 +380,20 @@
                     </div>
                 </div>
 
-                <!-- 3. Fine-tuning sliders Panel (Right side) -->
+                <!-- 3. Fine-tuning sliders Panel & Gemini Style Advisor (Right side) -->
                 <div class="lg:col-span-3 space-y-6">
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                         <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-rose-500"></i> Ajustements du Visage</h3>
                         
+                        <!-- Layer Position Switch (Useful when importing custom garments) -->
+                        <div class="space-y-1 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Position du Visage</label>
+                            <div class="grid grid-cols-2 gap-1 bg-white p-0.5 rounded-lg border border-slate-200 text-[11px]">
+                                <button onclick="setFaceLayerOrder('behind')" id="btn-layer-behind" class="py-1 rounded-md font-semibold text-rose-600 bg-rose-50">Sous la tenue</button>
+                                <button onclick="setFaceLayerOrder('front')" id="btn-layer-front" class="py-1 rounded-md font-semibold text-slate-600 hover:bg-slate-50">Sur la tenue</button>
+                            </div>
+                        </div>
+
                         <!-- Scale Slider -->
                         <div class="space-y-1">
                             <div class="flex justify-between text-xs font-semibold text-slate-600">
@@ -431,6 +454,65 @@
                         <button onclick="resetFaceTransform()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-all">
                             Réinitialiser la position
                         </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GEMINI EXPERT AI STYLE ADVISOR PANEL (USER REQUEST) -->
+            <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-6 border border-purple-100/50 shadow-sm mt-8">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Stylist Prompt Options -->
+                    <div class="md:w-1/3 space-y-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="bg-indigo-600 text-white p-2 rounded-xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <div>
+                                <h3 class="font-serif text-lg font-bold text-slate-800">Conseiller Style IA (Gemini)</h3>
+                                <p class="text-[11px] text-slate-400">Des idées mode adaptées à votre choix de vêtement.</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs font-bold text-slate-600 block mb-1">Thème de votre Mariage :</label>
+                                <select id="gemini-wedding-theme" class="w-full bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                                    <option value="Bohème / Champêtre">Bohème / Champêtre (Nature, fleurs sauvages)</option>
+                                    <option value="Chic / Glamour">Chic / Glamour (Grande réception, luxe)</option>
+                                    <option value="Traditionnel / Classique">Traditionnel / Classique (Sobre, elegant)</option>
+                                    <option value="Moderne / Minimaliste">Moderne / Minimaliste (Épuré, géométrique)</option>
+                                    <option value="Tropical / Plage">Tropical / Plage (Exotique, léger)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-bold text-slate-600 block mb-1">Votre Question Spécifique :</label>
+                                <textarea id="gemini-user-prompt" rows="2" class="w-full bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder-slate-400" placeholder="Ex: Quel type de coiffure ou de bouquet me conseillez-vous avec cette robe ?"></textarea>
+                            </div>
+
+                            <button onclick="askGeminiStylist()" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-sparkles"></i> Demander Conseil à l'IA Gemini
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stylist Response Bubble -->
+                    <div class="md:w-2/3 bg-white p-5 rounded-2xl border border-indigo-50 shadow-inner flex flex-col justify-between min-h-[220px]">
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                <i class="fa-solid fa-comments"></i> Styliste Virtuel Gemini
+                            </span>
+                            
+                            <!-- Response Text Container -->
+                            <div id="gemini-advisor-response" class="mt-4 text-xs text-slate-600 leading-relaxed space-y-2 max-h-[260px] overflow-y-auto pr-2">
+                                <p class="italic text-slate-400">Bonjour ! Sélectionnez un thème de mariage, votre tenue préférée, puis cliquez sur le bouton pour obtenir des conseils professionnels et des astuces d'accessoires sur-mesure pour sublimer votre allure royale.</p>
+                            </div>
+                        </div>
+
+                        <!-- Animated loader -->
+                        <div id="gemini-loader" class="hidden flex items-center justify-center py-8">
+                            <div class="flex items-center space-x-2 animate-pulse text-indigo-600 text-xs font-semibold">
+                                <i class="fa-solid fa-circle-notch animate-spin mr-1"></i> Gemini étudie votre tenue et rédige ses conseils...
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -542,13 +624,12 @@
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
 
-<!-- ================= JAVASCRIPT LOGIC WITH FIREBASE MODULES ================= -->
+<!-- ================= JAVASCRIPT LOGIC WITH FIREBASE & GEMINI ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// Your specified Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCs7LWvvEVkT4DXTqv7RnAwF5qguhliPN8",
     authDomain: "fahh-f9ec5.firebaseapp.com",
@@ -581,7 +662,7 @@ const CATEGORIES = {
     other: { name: 'Autres', color: 'slate', icon: 'fa-box-open' }
 };
 
-// Initial Marriage Data Model in Ariary
+// Initial Marriage Data Model in Ariary (Realistic values)
 let marriageData = {
     budgetLimit: 35000000,
     expenses: [
@@ -735,6 +816,7 @@ const OUTFITS = [
 let activeTab = "dashboard";
 let faceImage = null; 
 let selectedOutfit = OUTFITS[0]; 
+let faceLayerOrder = "behind"; // "behind" (traditional cutout) or "front" (ideal for imported full-image outfits)
 
 let faceTransform = {
     x: 200, 
@@ -752,7 +834,6 @@ let baseFaceX = 0;
 let baseFaceY = 0;
 let mediaStream = null; 
 
-// ================= FIRESTORE DATABASE SYNC =================
 // Rule 3: Auth before Queries & Rule 1: Use specific Firestore path
 async function initializeDatabase() {
     updateCloudIndicator('connecting');
@@ -888,7 +969,10 @@ function renderDashboard() {
         totalPaid += exp.paid;
     });
 
+    // CRITICAL USER UPDATE: Reste à payer aux prestataires
+    const remainingToPay = totalSpent - totalPaid;
     const remainingBudget = totalBudget - totalSpent;
+    
     const spentPercent = Math.min(100, (totalSpent / totalBudget) * 100);
     const paidPercent = Math.min(100, (totalPaid / totalBudget) * 100);
     const remainingPercent = Math.max(0, 100 - spentPercent);
@@ -896,19 +980,12 @@ function renderDashboard() {
     document.getElementById('stat-total-budget').innerText = formatCurrency(totalBudget);
     document.getElementById('stat-total-spent').innerText = formatCurrency(totalSpent);
     document.getElementById('stat-total-paid').innerText = formatCurrency(totalPaid);
-    document.getElementById('stat-remaining-budget').innerText = formatCurrency(Math.max(0, remainingBudget));
+    
+    // CRITICAL UPDATE: Set Reste à payer aux prestataires (outstanding funds)
+    document.getElementById('stat-remaining-to-pay').innerText = formatCurrency(remainingToPay);
 
     const spentPercentageEl = document.getElementById('stat-spent-percentage');
     spentPercentageEl.innerText = `${spentPercent.toFixed(1)}% du budget`;
-    
-    const subtitleEl = document.getElementById('stat-remaining-subtitle');
-    if (remainingBudget < 0) {
-        subtitleEl.innerText = "Attention : Vous dépassez votre budget initial !";
-        subtitleEl.className = "mt-2 text-xs text-rose-500 font-semibold";
-    } else {
-        subtitleEl.innerText = "Disponible pour d'autres dépenses";
-        subtitleEl.className = "mt-2 text-xs text-slate-400";
-    }
 
     const dashOffset = 502.6 - (502.6 * (spentPercent / 100));
     document.getElementById('gauge-fill').setAttribute('stroke-dashoffset', dashOffset);
@@ -1032,6 +1109,9 @@ function renderExpensesList() {
         emptyState.classList.add('hidden');
         
         filtered.forEach(exp => {
+            // CRITICAL: Calculate reste à payer per item
+            const itemReste = exp.estimated - exp.paid;
+            
             const rowHtml = `
                 <tr class="hover:bg-slate-50/50 transition-colors">
                     <td class="py-4 px-6 font-semibold text-slate-800">
@@ -1041,6 +1121,7 @@ function renderExpensesList() {
                     <td class="py-4 px-4">${getCategoryBadge(exp.category)}</td>
                     <td class="py-4 px-4 text-right font-bold text-slate-800">${formatCurrency(exp.estimated)}</td>
                     <td class="py-4 px-4 text-right font-semibold text-emerald-600">${formatCurrency(exp.paid)}</td>
+                    <td class="py-4 px-4 text-right font-bold text-rose-500">${formatCurrency(itemReste)}</td>
                     <td class="py-4 px-4 text-center">${getStatusBadge(exp.status)}</td>
                     <td class="py-4 px-6 text-right space-x-1 whitespace-nowrap">
                         <button onclick="openEditExpenseModal('${exp.id}')" class="text-xs text-slate-500 hover:text-rose-500 hover:bg-rose-50 p-2 rounded-xl transition-colors" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -1190,23 +1271,7 @@ function importData(event) {
 }
 
 function initFittingRoom() {
-    const outfitContainer = document.getElementById('outfit-picker');
-    if (!outfitContainer) return;
-    outfitContainer.innerHTML = "";
-
-    OUTFITS.forEach(outfit => {
-        const itemHtml = `
-            <div onclick="selectOutfit('${outfit.id}')" id="outfit-card-${outfit.id}" class="outfit-card cursor-pointer border-2 rounded-2xl p-3 flex flex-col items-center gap-2 transition-all duration-300 hover:scale-105 ${
-                selectedOutfit.id === outfit.id ? "border-rose-500 bg-rose-50/40 shadow-sm" : "border-slate-100 hover:border-rose-200"
-            }">
-                <div class="w-20 h-24 flex items-center justify-center overflow-hidden rounded-lg" style="background-color: ${outfit.bgColor};">
-                    ${outfit.svg}
-                </div>
-                <span class="text-[11px] font-bold text-slate-700 text-center">${outfit.name}</span>
-            </div>
-        `;
-        outfitContainer.insertAdjacentHTML('beforeend', itemHtml);
-    });
+    renderOutfitSelector();
 
     const canvas = document.getElementById('fitting-canvas');
     if (canvas) {
@@ -1220,6 +1285,33 @@ function initFittingRoom() {
     }
 
     drawFittingCanvas();
+}
+
+function renderOutfitSelector() {
+    const outfitContainer = document.getElementById('outfit-picker');
+    if (!outfitContainer) return;
+    outfitContainer.innerHTML = "";
+
+    OUTFITS.forEach(outfit => {
+        let previewContent = "";
+        if (outfit.isCustom && outfit.imageElement) {
+            previewContent = `<img src="${outfit.imageElement.src}" class="w-full h-full object-contain" />`;
+        } else {
+            previewContent = outfit.svg;
+        }
+
+        const itemHtml = `
+            <div onclick="selectOutfit('${outfit.id}')" id="outfit-card-${outfit.id}" class="outfit-card cursor-pointer border-2 rounded-2xl p-3 flex flex-col items-center gap-2 transition-all duration-300 hover:scale-105 ${
+                selectedOutfit.id === outfit.id ? "border-rose-500 bg-rose-50/40 shadow-sm" : "border-slate-100 hover:border-rose-200"
+            }">
+                <div class="w-20 h-24 flex items-center justify-center overflow-hidden rounded-lg" style="background-color: ${outfit.bgColor};">
+                    ${previewContent}
+                </div>
+                <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">${outfit.name}</span>
+            </div>
+        `;
+        outfitContainer.insertAdjacentHTML('beforeend', itemHtml);
+    });
 }
 
 function selectOutfit(id) {
@@ -1237,6 +1329,13 @@ function selectOutfit(id) {
     if (activeCard) {
         activeCard.classList.remove('border-slate-100');
         activeCard.classList.add('border-rose-500', 'bg-rose-50/40', 'shadow-sm');
+    }
+
+    // Smart logic: For custom uploaded outfits, we might want the face on top of the image by default.
+    if (outfit.isCustom) {
+        setFaceLayerOrder("front");
+    } else {
+        setFaceLayerOrder("behind");
     }
 
     drawFittingCanvas();
@@ -1259,6 +1358,56 @@ function loadFaceImage(event) {
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+}
+
+// USER DIRECTIVE: PARCOURIR ET IMPORTER SES TYPES DE VETEMENT
+function loadCustomOutfit(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const customId = "custom_" + Date.now();
+            const newOutfit = {
+                id: customId,
+                name: file.name.split('.')[0] || "Tenue Importée",
+                isCustom: true,
+                bgColor: "#F8FAFC",
+                imageElement: img
+            };
+            
+            // Add custom outfit to list
+            OUTFITS.push(newOutfit);
+            
+            // Select and refresh list
+            renderOutfitSelector();
+            selectOutfit(customId);
+            
+            showToast("Tenue importée avec succès ! Utilisez les filtres d'ajustement.", "success");
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+// Face Layer order toggle for blending versatility
+function setFaceLayerOrder(order) {
+    faceLayerOrder = order;
+    
+    const btnBehind = document.getElementById('btn-layer-behind');
+    const btnFront = document.getElementById('btn-layer-front');
+    
+    if (order === "behind") {
+        btnBehind.className = "py-1 rounded-md font-semibold text-rose-600 bg-rose-50";
+        btnFront.className = "py-1 rounded-md font-semibold text-slate-600 hover:bg-slate-50";
+    } else {
+        btnFront.className = "py-1 rounded-md font-semibold text-rose-600 bg-rose-50";
+        btnBehind.className = "py-1 rounded-md font-semibold text-slate-600 hover:bg-slate-50";
+    }
+    
+    drawFittingCanvas();
 }
 
 // Camera activation
@@ -1443,9 +1592,11 @@ function drawFittingCanvas() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // 1. Draw Background
     ctx.fillStyle = selectedOutfit.bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Guidance guide for face if no photo uploaded
     if (!faceImage) {
         ctx.strokeStyle = "rgba(244, 63, 94, 0.2)";
         ctx.lineWidth = 1.5;
@@ -1456,31 +1607,57 @@ function drawFittingCanvas() {
         ctx.setLineDash([]);
     }
 
-    if (faceImage) {
-        ctx.save();
-        ctx.translate(faceTransform.x, faceTransform.y);
-        ctx.rotate((faceTransform.rotate * Math.PI) / 180);
-        ctx.scale(faceTransform.scale, faceTransform.scale);
-        
-        ctx.filter = `brightness(${faceTransform.brightness}%) contrast(${faceTransform.contrast}%)`;
+    // Helper to draw user's face with CSS-like filter transforms
+    const drawFace = () => {
+        if (faceImage) {
+            ctx.save();
+            ctx.translate(faceTransform.x, faceTransform.y);
+            ctx.rotate((faceTransform.rotate * Math.PI) / 180);
+            ctx.scale(faceTransform.scale, faceTransform.scale);
+            
+            ctx.filter = `brightness(${faceTransform.brightness}%) contrast(${faceTransform.contrast}%)`;
 
-        const w = faceImage.width;
-        const h = faceImage.height;
-        ctx.drawImage(faceImage, -w/2, -h/2, w, h);
-        ctx.restore();
-    }
-
-    const svgString = selectedOutfit.svg;
-    const imgSvg = new Image();
-    
-    const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
-    const url = URL.createObjectURL(svgBlob);
-    
-    imgSvg.onload = function() {
-        ctx.drawImage(imgSvg, 0, 0, canvas.width, canvas.height);
-        URL.revokeObjectURL(url);
+            const w = faceImage.width;
+            const h = faceImage.height;
+            ctx.drawImage(faceImage, -w/2, -h/2, w, h);
+            ctx.restore();
+        }
     };
-    imgSvg.src = url;
+
+    // Helper to draw selected garment (either Built-in SVG or Custom Uploaded Image)
+    const drawOutfit = () => {
+        if (selectedOutfit.isCustom && selectedOutfit.imageElement) {
+            // Draw custom uploaded image, fit neatly inside canvas
+            const img = selectedOutfit.imageElement;
+            const ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+            const w = img.width * ratio;
+            const h = img.height * ratio;
+            const x = (canvas.width - w) / 2;
+            const y = (canvas.height - h) / 2;
+            ctx.drawImage(img, x, y, w, h);
+        } else {
+            // Draw SVG
+            const svgString = selectedOutfit.svg;
+            const imgSvg = new Image();
+            const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            imgSvg.onload = function() {
+                ctx.drawImage(imgSvg, 0, 0, canvas.width, canvas.height);
+                URL.revokeObjectURL(url);
+            };
+            imgSvg.src = url;
+        }
+    };
+
+    // 2. Multi-layer drawing based on toggle
+    if (faceLayerOrder === "behind") {
+        drawFace();
+        drawOutfit();
+    } else {
+        drawOutfit();
+        drawFace();
+    }
 }
 
 function downloadSimulation() {
@@ -1501,6 +1678,73 @@ function downloadSimulation() {
     showToast("Votre simulation d'essayage a été enregistrée !", "success");
 }
 
+// USER REQUEST: METTRE GEMINI SUR LE SITE SURTOUT DANS L'ESSAYAGE
+async function askGeminiStylist() {
+    const theme = document.getElementById('gemini-wedding-theme').value;
+    const userPrompt = document.getElementById('gemini-user-prompt').value;
+    const responseContainer = document.getElementById('gemini-advisor-response');
+    const loader = document.getElementById('gemini-loader');
+
+    // Display loader and reset container
+    loader.classList.remove('hidden');
+    responseContainer.classList.add('hidden');
+
+    const selectedOutfitName = selectedOutfit.name;
+    const apiKey = ""; // Canvas supplies apiKey automatically during runtime.
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+    const systemPrompt = "Tu es un styliste de mariage expert et de renommée mondiale. Donne des conseils élégants, raffinés, encourageants et pratiques en français sur l'association des tenues, des coiffures, des fleurs et des accessoires de mariage selon le thème choisi. Structure ton texte avec des listes à puces aérées pour une excellente lisibilité.";
+    
+    const prompt = `Je planifie mon mariage avec un thème "${theme}". 
+    J'ai sélectionné la tenue suivante dans mon salon d'essayage : "${selectedOutfitName}".
+    
+    Donne-moi des conseils d'expert de mode de mariage pour accessoiriser cette tenue (type de chaussures, bouquet de fleurs, bijoux, coiffure ou chapeau). 
+    ${userPrompt ? `Réponds aussi précisément à ma question personnelle suivante : "${userPrompt}"` : ""}`;
+
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: {
+            parts: [{ text: systemPrompt }]
+        }
+    };
+
+    try {
+        // Implement fetch call to Gemini
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`API response error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        const candidate = result.candidates?.[0];
+
+        if (candidate && candidate.content?.parts?.[0]?.text) {
+            const adviceText = candidate.content.parts[0].text;
+            
+            // Format some basic markdown stars/bold on the fly for elegance
+            let formattedAdvice = adviceText
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+
+            responseContainer.innerHTML = `<div class="space-y-2 text-slate-700 font-sans">${formattedAdvice}</div>`;
+        } else {
+            responseContainer.innerHTML = `<p class="text-rose-500">Désolé, l'IA Gemini n'a pas pu générer de réponse. Essayez à nouveau.</p>`;
+        }
+    } catch (error) {
+        console.error("Gemini API Call failed: ", error);
+        responseContainer.innerHTML = `<p class="text-rose-500">Une erreur s'est produite lors de la communication avec le conseiller de style Gemini. Vérifiez votre connexion.</p>`;
+    } finally {
+        loader.classList.add('hidden');
+        responseContainer.classList.remove('hidden');
+    }
+}
+
 // Attach functions explicitly to global window scope for HTML onclick events
 window.switchTab = switchTab;
 window.openBudgetModal = openBudgetModal;
@@ -1516,11 +1760,14 @@ window.importData = importData;
 window.filterExpenses = filterExpenses;
 window.selectOutfit = selectOutfit;
 window.loadFaceImage = loadFaceImage;
+window.loadCustomOutfit = loadCustomOutfit;
+window.setFaceLayerOrder = setFaceLayerOrder;
 window.toggleWebcam = toggleWebcam;
 window.captureFromWebcam = captureFromWebcam;
 window.updateFaceTransform = updateFaceTransform;
 window.resetFaceTransform = resetFaceTransform;
 window.downloadSimulation = downloadSimulation;
+window.askGeminiStylist = askGeminiStylist;
 
 // Initialize app with Firebase on load
 window.addEventListener('DOMContentLoaded', () => {
