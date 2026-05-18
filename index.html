@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Mariage de Rêve - Budget en Ariary & Salon d'Essayage</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800">
+
+<div class="min-h-screen flex flex-col">
+    <!-- Header/Navigation -->
+    <header class="bg-white border-b border-pink-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-br from-pink-400 to-rose-500 text-white p-2.5 rounded-full shadow-md shadow-pink-200">
+                        <i class="fa-solid fa-heart-pulse text-xl animate-pulse"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-serif text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-500">Mon Mariage d'Amour</h1>
+                            <!-- Cloud Status Indicator -->
+                            <span id="cloud-status" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-800 border border-amber-200 gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+                                Connexion...
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Planificateur en Ariary (Ar) & Essayage</p>
+                    </div>
+                </div>
+                <!-- Navigation Tabs -->
+                <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-xl">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 bg-white text-rose-600 shadow-sm">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span class="hidden md:inline">Tableau de Bord</span>
+                    </button>
+                    <button onclick="switchTab('expenses')" id="tab-expenses" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Budget & Dépenses</span>
+                    </button>
+                    <button onclick="switchTab('fitting')" id="tab-fitting" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
+                        <i class="fa-solid fa-shirt"></i>
+                        <span>Cabine d'Essayage</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- DASHBOARD TAB -->
+        <div id="view-dashboard" class="space-y-8 animate-fadeIn">
+            <!-- Hero Welcome Card -->
+            <div class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-rose-100 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">
+                    <i class="fa-solid fa-ring"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm">Félicitations pour votre engagement !</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 leading-tight">Planifiez vos dépenses en Ariary en toute sérénité</h2>
+                    <p class="mt-3 text-white/90 text-sm sm:text-base leading-relaxed">Suivez précisément votre budget de mariage, catégorisez toutes vos dépenses et visualisez-vous instantanément dans vos tenues idéales grâce à notre cabine d'essayage virtuelle.</p>
+                </div>
+            </div>
+
+            <!-- Stats Overview Row -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Budget Total Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-400">Budget Alloué</span>
+                        <div class="bg-blue-50 text-blue-500 p-2 rounded-xl"><i class="fa-solid fa-wallet"></i></div>
+                    </div>
+                    <div class="mt-4 flex items-baseline justify-between">
+                        <span id="stat-total-budget" class="text-xl sm:text-2xl font-bold text-slate-800">35 000 000 Ar</span>
+                        <button onclick="openBudgetModal()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">Modifier <i class="fa-solid fa-pen text-[10px]"></i></button>
+                    </div>
+                    <div class="mt-2 text-xs text-slate-400">Votre limite financière totale</div>
+                </div>
+
+                <!-- Total Spent Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-400">Total Engagé / Estimé</span>
+                        <div class="bg-amber-50 text-amber-500 p-2 rounded-xl"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    </div>
+                    <div class="mt-4">
+                        <span id="stat-total-spent" class="text-xl sm:text-2xl font-bold text-slate-800">0 Ar</span>
+                    </div>
+                    <div class="mt-2 text-xs flex items-center justify-between">
+                        <span id="stat-spent-percentage" class="text-rose-500 font-semibold">0% du budget</span>
+                    </div>
+                </div>
+
+                <!-- Total Paid Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-400">Total Payé (Acomptes)</span>
+                        <div class="bg-emerald-50 text-emerald-500 p-2 rounded-xl"><i class="fa-solid fa-circle-check"></i></div>
+                    </div>
+                    <div class="mt-4">
+                        <span id="stat-total-paid" class="text-xl sm:text-2xl font-bold text-slate-800">0 Ar</span>
+                    </div>
+                    <div class="mt-2 text-xs text-emerald-500 font-medium">Fonds déjà versés aux prestataires</div>
+                </div>
+
+                <!-- Reste à Payer Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-400">Solde Restant</span>
+                        <div class="bg-rose-50 text-rose-500 p-2 rounded-xl"><i class="fa-solid fa-scale-balanced"></i></div>
+                    </div>
+                    <div class="mt-4">
+                        <span id="stat-remaining-budget" class="text-xl sm:text-2xl font-bold text-slate-800">35 000 000 Ar</span>
+                    </div>
+                    <div class="mt-2 text-xs text-slate-400" id="stat-remaining-subtitle">Disponible pour d'autres dépenses</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Visual Budget Chart Ring -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-slate-800">Progression du Budget</h3>
+                        <p class="text-xs text-slate-400">Visualisation rapide de vos dépenses</p>
+                    </div>
+                    <div class="my-6 flex justify-center items-center relative">
+                        <svg class="w-48 h-48 transform -rotate-90">
+                            <circle cx="96" cy="96" r="80" stroke="#f1f5f9" stroke-width="16" fill="transparent" />
+                            <circle id="gauge-fill" cx="96" cy="96" r="80" stroke="#f43f5e" stroke-width="16" fill="transparent" 
+                                    stroke-dasharray="502.6" stroke-dashoffset="502.6" stroke-linecap="round" class="transition-all duration-1000" />
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span id="gauge-percent" class="text-3xl font-extrabold text-slate-800">0%</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Consommé</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-around text-center border-t border-slate-50 pt-4 text-xs">
+                        <div>
+                            <span class="block font-bold text-rose-500" id="stat-percent-spent">0%</span>
+                            <span class="text-slate-400">Engagé</span>
+                        </div>
+                        <div class="border-l border-slate-100 h-8"></div>
+                        <div>
+                            <span class="block font-bold text-emerald-500" id="stat-percent-paid">0%</span>
+                            <span class="text-slate-400">Payé</span>
+                        </div>
+                        <div class="border-l border-slate-100 h-8"></div>
+                        <div>
+                            <span class="block font-bold text-blue-500" id="stat-percent-remaining">100%</span>
+                            <span class="text-slate-400">Libre</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget by Category Summary -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm lg:col-span-2">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-slate-800">Dépenses par Catégorie</h3>
+                            <p class="text-xs text-slate-400">Où va votre budget de mariage ?</p>
+                        </div>
+                        <button onclick="switchTab('expenses')" class="text-xs text-rose-500 hover:underline font-semibold">Gérer tout <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                    <div id="category-progress-list" class="space-y-4">
+                        <!-- Dynamically filled by Javascript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Tips & Shortcuts -->
+            <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-100/50 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <span class="text-3xl">👗</span>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Prêt pour les essayages ?</h4>
+                        <p class="text-xs text-slate-500">Mettez une photo de votre visage pour l'aligner instantanément sur des robes de créateurs ou des costumes élégants.</p>
+                    </div>
+                </div>
+                <button onclick="switchTab('fitting')" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xs font-semibold px-5 py-3 rounded-xl shadow-md transition-all whitespace-nowrap">
+                    Lancer la simulation <i class="fa-solid fa-wand-magic-sparkles ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- EXPENSES TAB -->
+        <div id="view-expenses" class="hidden space-y-8 animate-fadeIn">
+            <!-- Header for expenses -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Dépenses de Mariage</h2>
+                    <p class="text-sm text-slate-400">Ajustez, ajoutez ou payez vos différents postes de dépenses.</p>
+                </div>
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <button onclick="openAddExpenseModal()" class="flex-grow md:flex-grow-0 bg-rose-500 hover:bg-rose-600 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-rose-100 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Ajouter une dépense
+                    </button>
+                    <button onclick="exportData()" class="bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm px-4 py-2.5 rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i> Sauvegarder (JSON)
+                    </button>
+                    <label class="cursor-pointer bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm px-4 py-2.5 rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-upload"></i> Charger <input type="file" id="import-file" class="hidden" accept=".json" onchange="importData(event)">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="expense-search" oninput="filterExpenses()" placeholder="Rechercher une dépense..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400/50 text-sm">
+                </div>
+                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-end">
+                    <select id="filter-category" onchange="filterExpenses()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-rose-400/50">
+                        <option value="all">Toutes les catégories</option>
+                        <option value="catering">Traiteur & Réception</option>
+                        <option value="venue">Lieu & Logistique</option>
+                        <option value="attire">Tenues & Beauté</option>
+                        <option value="media">Photo & Vidéo</option>
+                        <option value="entertainment">Animation & Musique</option>
+                        <option value="decor">Fleurs & Déco</option>
+                        <option value="stationery">Papeterie & Cadeaux</option>
+                        <option value="admin">Administratif & Alliances</option>
+                        <option value="other">Autres</option>
+                    </select>
+                    <select id="filter-status" onchange="filterExpenses()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-rose-400/50">
+                        <option value="all">Tous les statuts</option>
+                        <option value="payé">Payé</option>
+                        <option value="acompte">Acompte payé</option>
+                        <option value="en-attente">En attente</option>
+                        <option value="planifié">Planifié</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Expense Items Table / List -->
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-4 px-6">Dépense / Poste</th>
+                                <th class="py-4 px-4">Catégorie</th>
+                                <th class="py-4 px-4 text-right">Budget Estimé</th>
+                                <th class="py-4 px-4 text-right">Montant Payé</th>
+                                <th class="py-4 px-4 text-center">Statut</th>
+                                <th class="py-4 px-6 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-table-body" class="divide-y divide-slate-50 text-sm text-slate-700">
+                            <!-- Populated dynamically via Javascript -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Empty State -->
+                <div id="expenses-empty-state" class="hidden flex flex-col items-center justify-center py-16 px-4 text-center">
+                    <span class="text-5xl mb-4">🔍</span>
+                    <h3 class="font-serif text-lg font-bold text-slate-800">Aucune dépense trouvée</h3>
+                    <p class="text-sm text-slate-400 mt-1">Essayez d'ajuster vos filtres de recherche ou ajoutez un nouvel élément.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FITTING TAB (VIRTUAL CABIN) -->
+        <div id="view-fitting" class="hidden space-y-8 animate-fadeIn">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Salon d'Essayage Virtuel</h2>
+                    <p class="text-sm text-slate-400">Positionnez et ajustez votre visage sur un modèle de costume ou de robe.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="downloadSimulation()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-emerald-100 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Enregistrer ma création
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- 1. Left controls panel (Source face & Outfits list) -->
+                <div class="lg:col-span-4 space-y-6">
+                    <!-- Face Upload Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-user-tie text-rose-500"></i> Étape 1 : Votre Visage</h3>
+                        
+                        <!-- Upload options -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center text-xs hover:bg-slate-100 transition-all">
+                                <i class="fa-solid fa-image text-rose-400 text-lg mb-1.5"></i>
+                                <span class="font-semibold text-slate-700">Uploader</span>
+                                <input type="file" id="face-image-loader" accept="image/*" class="hidden" onchange="loadFaceImage(event)">
+                            </label>
+                            <button onclick="toggleWebcam()" class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center text-xs hover:bg-slate-100 transition-all">
+                                <i class="fa-solid fa-camera text-rose-400 text-lg mb-1.5"></i>
+                                <span class="font-semibold text-slate-700" id="webcam-btn-text">Prendre Photo</span>
+                            </button>
+                        </div>
+
+                        <!-- Webcam live view (hidden until activated) -->
+                        <div id="webcam-container" class="hidden relative rounded-xl overflow-hidden bg-black aspect-square">
+                            <video id="webcam-video" autoplay playsinline class="w-full h-full object-cover"></video>
+                            <button onclick="captureFromWebcam()" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-rose-500 text-white p-3 rounded-full hover:bg-rose-600 shadow-lg flex items-center justify-center"><i class="fa-solid fa-camera"></i></button>
+                        </div>
+
+                        <!-- Loaded indicator -->
+                        <div id="face-loaded-indicator" class="hidden bg-emerald-50 text-emerald-700 rounded-xl p-3 text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Visage importé avec succès ! Ajustez-le sur le mannequin.
+                        </div>
+                    </div>
+
+                    <!-- Outfit Selection Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-shirt text-rose-500"></i> Étape 2 : Choisir la Tenue</h3>
+                        <div class="grid grid-cols-2 gap-3" id="outfit-picker">
+                            <!-- Dynamically added outfit templates -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Main Center canvas preview -->
+                <div class="lg:col-span-5 flex flex-col items-center bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative">
+                    <div class="w-full flex justify-between items-center mb-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Prévisualisation d'essayage</span>
+                        <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-circle-info mr-1"></i>Glissez & Déplacez sur le canevas</span>
+                    </div>
+
+                    <!-- Canvas container for responsive auto-scale layout -->
+                    <div class="relative max-w-full overflow-hidden border border-slate-100 rounded-2xl bg-gradient-to-tr from-rose-50/20 via-slate-100 to-pink-50/20 flex items-center justify-center shadow-inner" style="width: 400px; height: 500px;">
+                        <canvas id="fitting-canvas" width="400" height="500" class="cursor-move bg-transparent absolute top-0 left-0"></canvas>
+                        <!-- Loader overlay -->
+                        <div id="canvas-placeholder" class="pointer-events-none text-center p-6 text-slate-400 absolute flex flex-col items-center">
+                            <span class="text-5xl animate-bounce mb-3">👗</span>
+                            <p class="text-xs font-semibold">Uploadez votre visage pour commencer !</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Fine-tuning sliders Panel (Right side) -->
+                <div class="lg:col-span-3 space-y-6">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-rose-500"></i> Ajustements du Visage</h3>
+                        
+                        <!-- Scale Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Taille (Zoom)</span>
+                                <span id="val-scale">0.55</span>
+                            </div>
+                            <input type="range" id="slider-scale" min="0.1" max="3" step="0.05" value="0.55" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <!-- Rotation Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Rotation (Degrés)</span>
+                                <span id="val-rotate">0°</span>
+                            </div>
+                            <input type="range" id="slider-rotate" min="-180" max="180" step="1" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <!-- Position X Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Position Horizontale (X)</span>
+                            </div>
+                            <input type="range" id="slider-pos-x" min="-200" max="200" step="2" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <!-- Position Y Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Position Verticale (Y)</span>
+                            </div>
+                            <input type="range" id="slider-pos-y" min="-250" max="250" step="2" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <hr class="border-slate-100">
+
+                        <h3 class="font-bold text-slate-800 text-sm">Ajustements d'Image (Blending)</h3>
+
+                        <!-- Brightness Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Luminosité</span>
+                                <span id="val-brightness">100%</span>
+                            </div>
+                            <input type="range" id="slider-brightness" min="50" max="150" step="1" value="100" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <!-- Contrast Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>Contraste</span>
+                                <span id="val-contrast">100%</span>
+                            </div>
+                            <input type="range" id="slider-contrast" min="50" max="150" step="1" value="100" oninput="updateFaceTransform()" class="w-full accent-rose-500">
+                        </div>
+
+                        <!-- Reset Button -->
+                        <button onclick="resetFaceTransform()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-all">
+                            Réinitialiser la position
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Organisateur de Mariage Royal. Tous droits réservés. Vos données sont synchronisées en direct avec votre Cloud Firebase.</p>
+        </div>
+    </footer>
+</div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- 1. EDIT BUDGET LIMIT MODAL -->
+<div id="modal-budget" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-100 p-6 space-y-4 animate-scaleUp">
+        <div class="flex justify-between items-center">
+            <h3 class="font-serif text-lg font-bold text-slate-800">Modifier le Budget de Mariage (Ar)</h3>
+            <button onclick="closeBudgetModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-500">Montant Maximum Alloué (en Ariary)</label>
+            <input type="number" id="input-budget-limit" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: 35000000">
+        </div>
+        <div class="flex gap-2 justify-end pt-2">
+            <button onclick="closeBudgetModal()" class="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded-xl">Annuler</button>
+            <button onclick="saveBudgetLimit()" class="px-5 py-2 text-xs font-semibold text-white bg-rose-500 hover:bg-rose-600 rounded-xl shadow-md">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. ADD/EDIT EXPENSE MODAL -->
+<div id="modal-expense" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-100 p-6 space-y-4 animate-scaleUp max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center">
+            <h3 id="expense-modal-title" class="font-serif text-lg font-bold text-slate-800">Ajouter un poste de dépense</h3>
+            <button onclick="closeExpenseModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        
+        <form id="expense-form" class="space-y-4" onsubmit="handleExpenseFormSubmit(event)">
+            <input type="hidden" id="form-expense-id">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Name -->
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500">Nom du poste / Prestataire</label>
+                    <input type="text" id="form-expense-name" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Traiteur">
+                </div>
+                
+                <!-- Category -->
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500">Catégorie</label>
+                    <select id="form-expense-category" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-400">
+                        <option value="catering">Traiteur & Réception</option>
+                        <option value="venue">Lieu & Logistique</option>
+                        <option value="attire">Tenues & Beauté</option>
+                        <option value="media">Photo & Vidéo</option>
+                        <option value="entertainment">Animation & Musique</option>
+                        <option value="decor">Fleurs & Déco</option>
+                        <option value="stationery">Papeterie & Cadeaux</option>
+                        <option value="admin">Administratif & Alliances</option>
+                        <option value="other">Autres</option>
+                    </select>
+                </div>
+
+                <!-- Estimated cost -->
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500">Budget Estimé (Ar)</label>
+                    <input type="number" step="1" id="form-expense-estimated" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400">
+                </div>
+
+                <!-- Paid cost -->
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500">Montant déjà Payé (Ar)</label>
+                    <input type="number" step="1" id="form-expense-paid" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400">
+                </div>
+
+                <!-- Status -->
+                <div class="space-y-1 md:col-span-2">
+                    <label class="text-xs font-semibold text-slate-500">Statut de la dépense</label>
+                    <select id="form-expense-status" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-400">
+                        <option value="planifié">Planifié (Non engagé)</option>
+                        <option value="en-attente">En attente (Contrat signé, rien payé)</option>
+                        <option value="acompte">Acompte payé</option>
+                        <option value="payé">Payé en totalité</option>
+                    </select>
+                </div>
+
+                <!-- Notes -->
+                <div class="space-y-1 md:col-span-2">
+                    <label class="text-xs font-semibold text-slate-500">Notes / Informations complémentaires</label>
+                    <textarea id="form-expense-notes" rows="2" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Rendez-vous dégustation..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-2 justify-end pt-4 border-t border-slate-100">
+                <button type="button" onclick="closeExpenseModal()" class="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded-xl">Annuler</button>
+                <button type="submit" class="px-5 py-2 text-xs font-semibold text-white bg-rose-500 hover:bg-rose-600 rounded-xl shadow-md">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Notification Container -->
+<div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+
+<!-- ================= JAVASCRIPT LOGIC WITH FIREBASE MODULES ================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// Your specified Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCs7LWvvEVkT4DXTqv7RnAwF5qguhliPN8",
+    authDomain: "fahh-f9ec5.firebaseapp.com",
+    projectId: "fahh-f9ec5",
+    storageBucket: "fahh-f9ec5.firebasestorage.app",
+    messagingSenderId: "199693559715",
+    appId: "1:199693559715:web:ff0ec9db10a5ba50be1c16",
+    measurementId: "G-640VWEEJ02"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'fahh-f9ec5';
+let userId = null;
+let syncTimeout = null;
+
+// Predefined Category Info
+const CATEGORIES = {
+    catering: { name: 'Traiteur & Réception', color: 'rose', icon: 'fa-utensils' },
+    venue: { name: 'Lieu & Logistique', color: 'amber', icon: 'fa-map-pin' },
+    attire: { name: 'Tenues & Beauté', color: 'pink', icon: 'fa-shirt' },
+    media: { name: 'Photo & Vidéo', color: 'indigo', icon: 'fa-camera' },
+    entertainment: { name: 'Animation & Musique', color: 'purple', icon: 'fa-music' },
+    decor: { name: 'Fleurs & Déco', color: 'emerald', icon: 'fa-seedling' },
+    stationery: { name: 'Papeterie & Cadeaux', color: 'cyan', icon: 'fa-envelope-open-text' },
+    admin: { name: 'Administratif & Alliances', color: 'blue', icon: 'fa-signature' },
+    other: { name: 'Autres', color: 'slate', icon: 'fa-box-open' }
+};
+
+// Initial Marriage Data Model in Ariary
+let marriageData = {
+    budgetLimit: 35000000,
+    expenses: [
+        { id: "1", name: "Location de la Salle de Fête", category: "venue", estimated: 8000000, paid: 2000000, status: "acompte", notes: "Grande salle avec jardin extérieur pour cérémonie laïque." },
+        { id: "2", name: "Traiteur d'exception (100 personnes)", category: "catering", estimated: 12000000, paid: 3000000, status: "acompte", notes: "Comprend cocktail, dîner 3 plats, et service." },
+        { id: "3", name: "Robe de mariée de créateur", category: "attire", estimated: 2500000, paid: 2500000, status: "payé", notes: "Essayage validé. Retouches incluses." },
+        { id: "4", name: "Costume 3 pièces marié", category: "attire", estimated: 1500000, paid: 0, status: "planifié", notes: "Couleur bleu nuit avec accessoires." },
+        { id: "5", name: "Duo d'alliances en or", category: "admin", estimated: 2000000, paid: 0, status: "en-attente", notes: "Gravures personnalisées des prénoms." },
+        { id: "6", name: "Reportage Photo Complet", category: "media", estimated: 3000000, paid: 1000000, status: "acompte", notes: "De la préparation jusqu'à l'ouverture de bal." },
+        { id: "7", name: "Décoration Florale & Bouquet", category: "decor", estimated: 1800000, paid: 0, status: "planifié", notes: "Thème bohème chic chic, fleurs de saison blanches et eucalyptus." },
+        { id: "8", name: "DJ & Éclairage piste de danse", category: "entertainment", estimated: 2200000, paid: 500000, status: "acompte", notes: "Playlists personnalisées selon nos goûts." },
+        { id: "9", name: "Faire-parts & Invitations", category: "stationery", estimated: 600000, paid: 600000, status: "payé", notes: "Design floral envoyé aux invités." },
+        { id: "10", name: "Frais de dossier administratif", category: "admin", estimated: 300000, paid: 300000, status: "payé", notes: "Papiers d'état civil." }
+    ]
+};
+
+// Virtual Try-on Outfits (SVG templates)
+const OUTFITS = [
+    {
+        id: "robe_princesse",
+        name: "Robe Princesse Féérique",
+        type: "f",
+        bgColor: "#FFF5F5",
+        svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="dressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="50%" stop-color="#fff5f5"/>
+                    <stop offset="100%" stop-color="#ffebed"/>
+                </linearGradient>
+                <linearGradient id="tiaraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffd700"/>
+                    <stop offset="100%" stop-color="#ffb700"/>
+                </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="#fdf2f4" opacity="0.3" />
+            <path d="M120 180 C110 320 100 480 80 500 L320 500 C300 480 290 320 280 180 Z" fill="#ffffff" opacity="0.25" stroke="#fecdd3" stroke-width="1" />
+            <path d="M160 210 C160 200 170 195 200 205 C230 195 240 200 240 210 C240 220 250 250 260 290 C220 295 180 295 140 290 C150 250 160 220 160 210 Z" fill="url(#dressGrad)" stroke="#fecdd3" stroke-width="1.5" />
+            <path d="M160 210 C180 220 200 215 200 215 C200 215 220 220 240 210" fill="none" stroke="#fda4af" stroke-width="2" />
+            <path d="M140 290 C100 350 40 450 30 500 L370 500 C360 450 300 350 260 290 C220 305 180 305 140 290 Z" fill="url(#dressGrad)" stroke="#fde2e4" stroke-width="2" />
+            <path d="M 40 490 Q 70 470 100 490 Q 130 470 160 490 Q 190 470 220 490 Q 250 470 280 490 Q 310 470 340 490 Q 360 480 365 490" fill="none" stroke="#fbcfe8" stroke-width="2" />
+            <path d="M 50 470 Q 100 450 150 470 Q 200 450 250 470 Q 300 450 350 470" fill="none" stroke="#fbcfe8" opacity="0.6" stroke-width="1.5" />
+            <circle cx="200" cy="225" r="3" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
+            <circle cx="185" cy="222" r="2.5" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
+            <circle cx="215" cy="222" r="2.5" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
+            <g transform="translate(200, 300)">
+                <ellipse cx="0" cy="0" rx="25" ry="15" fill="#fecdd3" stroke="#fda4af" />
+                <circle cx="-10" cy="-5" r="10" fill="#fbcfe8" />
+                <circle cx="10" cy="-5" r="10" fill="#ffe4e6" />
+                <circle cx="0" cy="8" r="11" fill="#fecdd3" />
+                <path d="M -25 0 Q -35 -10 -25 -15 Q -15 -10 -25 0" fill="#a7f3d0" />
+                <path d="M 25 0 Q 35 -10 25 -15 Q 15 -10 25 0" fill="#a7f3d0" />
+            </g>
+            <g transform="translate(200, 85)">
+                <path d="M -45 5 C -35 -15 -15 -30 0 -30 C 15 -30 35 -15 45 5 C 30 0 15 -5 0 -5 C -15 -5 -30 0 -45 5 Z" fill="url(#tiaraGrad)" stroke="#d97706" stroke-width="1" />
+                <polygon points="0,-35 -8,-15 8,-15" fill="url(#tiaraGrad)" />
+                <polygon points="-20,-28 -25,-10 -12,-10" fill="url(#tiaraGrad)" />
+                <polygon points="20,-28 12,-10 25,-10" fill="url(#tiaraGrad)" />
+                <circle cx="0" cy="-38" r="4.5" fill="#ffe4e6" stroke="#d97706" />
+            </g>
+        </svg>`
+    },
+    {
+        id: "costume_smoking",
+        name: "Smoking Royal Noir",
+        type: "m",
+        bgColor: "#F1F5F9",
+        svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="suitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1e293b"/>
+                    <stop offset="100%" stop-color="#0f172a"/>
+                </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="#f1f5f9" opacity="0.3" />
+            <path d="M 100 220 L 150 190 C 150 190 170 240 200 240 C 230 240 250 190 250 190 L 300 220 L 320 500 L 80 500 Z" fill="url(#suitGrad)" />
+            <path d="M 160 190 L 200 255 L 240 190 Z" fill="#ffffff" />
+            <path d="M 200 190 L 200 255" stroke="#e2e8f0" stroke-width="2" />
+            <g transform="translate(200, 195)">
+                <polygon points="0,0 -18,-10 -18,10" fill="#020617" />
+                <polygon points="0,0 18,-10 18,10" fill="#020617" />
+                <circle cx="0" cy="0" r="4.5" fill="#0f172a" />
+            </g>
+            <g transform="translate(145, 230)">
+                <path d="M 0 0 L 10 15" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="0" cy="0" r="6" fill="#f43f5e" />
+                <circle cx="-3" cy="-3" r="4" fill="#fda4af" />
+            </g>
+            <path d="M 130 250 L 145 240 L 155 250 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.5" />
+            <rect x="125" y="250" width="35" height="4" fill="#0f172a" />
+        </svg>`
+    },
+    {
+        id: "robe_boheme",
+        name: "Dentelle Bohème & Fleurs",
+        type: "f",
+        bgColor: "#FCFBF7",
+        svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="bohoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fafaf9"/>
+                    <stop offset="60%" stop-color="#f5f5f4"/>
+                    <stop offset="100%" stop-color="#e7e5e4"/>
+                </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="#fafaf9" opacity="0.3" />
+            <path d="M 148 185 C 150 200 155 210 160 215" fill="none" stroke="#e7e5e4" stroke-width="6" stroke-linecap="round" />
+            <path d="M 252 185 C 250 200 245 210 240 215" fill="none" stroke="#e7e5e4" stroke-width="6" stroke-linecap="round" />
+            <path d="M 160 215 C 180 235 200 235 200 235 C 200 235 220 235 240 215 L 255 280 C 200 290 200 290 145 280 Z" fill="url(#bohoGrad)" stroke="#d6d3d1" stroke-width="1" />
+            <path d="M 145 280 C 110 330 90 440 80 500 L 320 500 C 310 440 290 330 255 280 Z" fill="url(#bohoGrad)" stroke="#e7e5e4" stroke-width="1.5" />
+            <path d="M 170 285 C 160 350 150 420 140 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
+            <path d="M 200 288 C 200 355 200 425 200 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
+            <path d="M 230 285 C 240 350 250 420 260 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
+            <g transform="translate(200, 75)">
+                <path d="M -48 10 Q -10 -25 48 10" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round" />
+                <circle cx="-35" cy="-2" r="7" fill="#fda4af" /> <circle cx="-35" cy="-2" r="3" fill="#fef08a" />
+                <circle cx="-15" cy="-11" r="8" fill="#fbcfe8" /> <circle cx="-15" cy="-11" r="3" fill="#ffffff" />
+                <circle cx="10" cy="-11" r="9" fill="#fecdd3" /> <circle cx="10" cy="-11" r="3.5" fill="#fef08a" />
+                <circle cx="32" cy="-2" r="7.5" fill="#c084fc" /> <circle cx="32" cy="-2" r="2.5" fill="#ffffff" />
+            </g>
+        </svg>`
+    },
+    {
+        id: "costume_bleu",
+        name: "Costume Ajusté Bleu Ciel",
+        type: "m",
+        bgColor: "#F0FDFA",
+        svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="blueSuitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0284c7"/>
+                    <stop offset="100%" stop-color="#0369a1"/>
+                </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="#f0fdfa" opacity="0.3" />
+            <path d="M 100 215 L 150 185 C 150 185 170 235 200 235 C 230 235 250 185 250 185 L 300 215 L 315 500 L 85 500 Z" fill="url(#blueSuitGrad)" />
+            <path d="M 160 185 L 200 250 L 240 185 Z" fill="#ffffff" />
+            <g transform="translate(200, 190)">
+                <polygon points="-7,0 7,0 4,12 -4,12" fill="#fb7185" />
+                <polygon points="-4,12 4,12 8,80 0,95 -8,80" fill="#f43f5e" />
+            </g>
+            <g transform="translate(148, 222)">
+                <circle cx="0" cy="0" r="5" fill="#ffffff" />
+                <circle cx="-4" cy="-3" r="3" fill="#fed7aa" />
+            </g>
+        </svg>`
+    }
+];
+
+// Active State Trackers
+let activeTab = "dashboard";
+let faceImage = null; 
+let selectedOutfit = OUTFITS[0]; 
+
+let faceTransform = {
+    x: 200, 
+    y: 135, 
+    scale: 0.55,
+    rotate: 0, 
+    brightness: 100,
+    contrast: 100
+};
+
+let isDragging = false;
+let startDragX = 0;
+let startDragY = 0;
+let baseFaceX = 0;
+let baseFaceY = 0;
+let mediaStream = null; 
+
+// ================= FIRESTORE DATABASE SYNC =================
+// Rule 3: Auth before Queries & Rule 1: Use specific Firestore path
+async function initializeDatabase() {
+    updateCloudIndicator('connecting');
+    try {
+        const userCredential = await signInAnonymously(auth);
+        userId = userCredential.user.uid;
+        
+        // Setup direct load from strict user path
+        const userSettingsDocRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'marriageData');
+        const docSnap = await getDoc(userSettingsDocRef);
+        
+        if (docSnap.exists()) {
+            marriageData = docSnap.data();
+            showToast("Données chargées depuis votre Cloud !", "success");
+        } else {
+            // Save initial defaults to cloud
+            await setDoc(userSettingsDocRef, marriageData);
+            showToast("Initialisation de votre budget sécurisée sur le Cloud.", "success");
+        }
+        updateCloudIndicator('synced');
+    } catch (error) {
+        console.error("Database connection failed: ", error);
+        updateCloudIndicator('offline');
+        showToast("Échec de synchronisation avec Firebase. Utilisation hors-ligne active.", "error");
+    }
+
+    // Initialize UI Elements
+    initApp();
+}
+
+function updateCloudIndicator(status) {
+    const el = document.getElementById('cloud-status');
+    if (!el) return;
+    if (status === 'synced') {
+        el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 gap-1";
+        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sauvegardé`;
+    } else if (status === 'connecting') {
+        el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-800 border border-amber-200 gap-1";
+        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Synchronisation...`;
+    } else {
+        el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-50 text-rose-800 border border-rose-200 gap-1";
+        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Hors-ligne`;
+    }
+}
+
+// Queue database save to avoid spamming Firestore
+function triggerCloudSave() {
+    updateCloudIndicator('connecting');
+    if (syncTimeout) clearTimeout(syncTimeout);
+    syncTimeout = setTimeout(async () => {
+        if (!userId) return;
+        try {
+            const userSettingsDocRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'marriageData');
+            await setDoc(userSettingsDocRef, marriageData);
+            updateCloudIndicator('synced');
+        } catch (error) {
+            console.error("Cloud saving failed: ", error);
+            updateCloudIndicator('offline');
+        }
+    }, 1200);
+}
+
+// ================= APP INITIALIZATION =================
+function initApp() {
+    renderDashboard();
+    renderExpensesList();
+    initFittingRoom();
+}
+
+// Formatter with local Ariary currency convention (Ar)
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('fr-MG', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount) + " Ar";
+}
+
+function showToast(message, type = "success") {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `flex items-center p-4 rounded-2xl shadow-lg border text-xs font-semibold transition-all duration-300 transform translate-y-2 opacity-0 bg-white ${
+        type === "success" ? "border-emerald-100 text-emerald-800" : "border-rose-100 text-rose-800"
+    }`;
+    
+    const icon = type === "success" ? "fa-circle-check text-emerald-500" : "fa-circle-exclamation text-rose-500";
+    toast.innerHTML = `<i class="fa-solid ${icon} text-base mr-2.5"></i> <span>${message}</span>`;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+    }, 10);
+
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+    }, 3500);
+}
+
+function switchTab(tabId) {
+    activeTab = tabId;
+    
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-rose-600', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'hover:text-rose-500');
+    });
+    
+    const activeBtn = document.getElementById(`tab-${tabId}`);
+    if (activeBtn) {
+        activeBtn.classList.remove('text-slate-600', 'hover:text-rose-500');
+        activeBtn.classList.add('bg-white', 'text-rose-600', 'shadow-sm');
+    }
+
+    document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-expenses').classList.add('hidden');
+    document.getElementById('view-fitting').classList.add('hidden');
+
+    document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+    if (tabId === 'dashboard') {
+        renderDashboard();
+    } else if (tabId === 'expenses') {
+        renderExpensesList();
+    } else if (tabId === 'fitting') {
+        drawFittingCanvas();
+    }
+}
+
+function renderDashboard() {
+    const totalBudget = marriageData.budgetLimit;
+    let totalSpent = 0; 
+    let totalPaid = 0; 
+
+    marriageData.expenses.forEach(exp => {
+        totalSpent += exp.estimated;
+        totalPaid += exp.paid;
+    });
+
+    const remainingBudget = totalBudget - totalSpent;
+    const spentPercent = Math.min(100, (totalSpent / totalBudget) * 100);
+    const paidPercent = Math.min(100, (totalPaid / totalBudget) * 100);
+    const remainingPercent = Math.max(0, 100 - spentPercent);
+
+    document.getElementById('stat-total-budget').innerText = formatCurrency(totalBudget);
+    document.getElementById('stat-total-spent').innerText = formatCurrency(totalSpent);
+    document.getElementById('stat-total-paid').innerText = formatCurrency(totalPaid);
+    document.getElementById('stat-remaining-budget').innerText = formatCurrency(Math.max(0, remainingBudget));
+
+    const spentPercentageEl = document.getElementById('stat-spent-percentage');
+    spentPercentageEl.innerText = `${spentPercent.toFixed(1)}% du budget`;
+    
+    const subtitleEl = document.getElementById('stat-remaining-subtitle');
+    if (remainingBudget < 0) {
+        subtitleEl.innerText = "Attention : Vous dépassez votre budget initial !";
+        subtitleEl.className = "mt-2 text-xs text-rose-500 font-semibold";
+    } else {
+        subtitleEl.innerText = "Disponible pour d'autres dépenses";
+        subtitleEl.className = "mt-2 text-xs text-slate-400";
+    }
+
+    const dashOffset = 502.6 - (502.6 * (spentPercent / 100));
+    document.getElementById('gauge-fill').setAttribute('stroke-dashoffset', dashOffset);
+    document.getElementById('gauge-percent').innerText = `${spentPercent.toFixed(0)}%`;
+
+    document.getElementById('stat-percent-spent').innerText = `${spentPercent.toFixed(0)}%`;
+    document.getElementById('stat-percent-paid').innerText = `${paidPercent.toFixed(0)}%`;
+    document.getElementById('stat-percent-remaining').innerText = `${remainingPercent.toFixed(0)}%`;
+
+    renderCategoryBreakdown(totalBudget);
+}
+
+function renderCategoryBreakdown(totalBudget) {
+    const listContainer = document.getElementById('category-progress-list');
+    listContainer.innerHTML = "";
+
+    let categoryTotals = {};
+    Object.keys(CATEGORIES).forEach(cat => {
+        categoryTotals[cat] = 0;
+    });
+
+    marriageData.expenses.forEach(exp => {
+        if (categoryTotals[exp.category] !== undefined) {
+            categoryTotals[exp.category] += exp.estimated;
+        } else {
+            categoryTotals['other'] += exp.estimated;
+        }
+    });
+
+    Object.keys(CATEGORIES).forEach(catId => {
+        const catInfo = CATEGORIES[catId];
+        const cost = categoryTotals[catId];
+        const percentageOfBudget = Math.min(100, (cost / totalBudget) * 100);
+        
+        if (cost > 0) {
+            const barHtml = `
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-lg bg-${catInfo.color}-100 text-${catInfo.color}-600 flex items-center justify-center text-[10px]"><i class="fa-solid ${catInfo.icon}"></i></span>
+                            <span class="font-semibold text-slate-700">${catInfo.name}</span>
+                        </div>
+                        <div class="space-x-1.5">
+                            <span class="font-bold text-slate-800">${formatCurrency(cost)}</span>
+                            <span class="text-slate-400">(${percentageOfBudget.toFixed(1)}%)</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div class="h-full bg-${catInfo.color}-500 rounded-full transition-all duration-1000" style="width: ${percentageOfBudget}%"></div>
+                    </div>
+                </div>
+            `;
+            listContainer.insertAdjacentHTML('beforeend', barHtml);
+        }
+    });
+
+    if (marriageData.expenses.length === 0) {
+        listContainer.innerHTML = `
+            <div class="text-center py-8 text-slate-400 text-sm">
+                Aucune dépense planifiée pour le moment. Allez sur l'onglet <strong class="text-rose-500 cursor-pointer" onclick="switchTab('expenses')">Budget & Dépenses</strong> pour commencer.
+            </div>
+        `;
+    }
+}
+
+function getCategoryBadge(catId) {
+    const cat = CATEGORIES[catId] || CATEGORIES.other;
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-${cat.color}-50 text-${cat.color}-700 border border-${cat.color}-100">
+        <i class="fa-solid ${cat.icon} text-[10px]"></i> ${cat.name}
+    </span>`;
+}
+
+function getStatusBadge(status) {
+    let styles = "";
+    let label = "";
+
+    switch(status) {
+        case "payé":
+            styles = "bg-emerald-50 text-emerald-700 border-emerald-100";
+            label = "Payé";
+            break;
+        case "acompte":
+            styles = "bg-amber-50 text-amber-700 border-amber-100";
+            label = "Acompte Payé";
+            break;
+        case "en-attente":
+            styles = "bg-indigo-50 text-indigo-700 border-indigo-100";
+            label = "Contrat Signé";
+            break;
+        case "planifié":
+        default:
+            styles = "bg-slate-50 text-slate-600 border-slate-200";
+            label = "Planifié";
+            break;
+    }
+
+    return `<span class="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${styles}">${label}</span>`;
+}
+
+function renderExpensesList() {
+    const tableBody = document.getElementById('expense-table-body');
+    const emptyState = document.getElementById('expenses-empty-state');
+    
+    if (!tableBody) return;
+    tableBody.innerHTML = "";
+
+    const searchTerm = document.getElementById('expense-search').value.toLowerCase();
+    const selectedCat = document.getElementById('filter-category').value;
+    const selectedStatus = document.getElementById('filter-status').value;
+
+    const filtered = marriageData.expenses.filter(exp => {
+        const matchesSearch = exp.name.toLowerCase().includes(searchTerm) || (exp.notes && exp.notes.toLowerCase().includes(searchTerm));
+        const matchesCat = selectedCat === "all" || exp.category === selectedCat;
+        const matchesStatus = selectedStatus === "all" || exp.status === selectedStatus;
+        return matchesSearch && matchesCat && matchesStatus;
+    });
+
+    if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+    } else {
+        emptyState.classList.add('hidden');
+        
+        filtered.forEach(exp => {
+            const rowHtml = `
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="py-4 px-6 font-semibold text-slate-800">
+                        <div>${escapeHtml(exp.name)}</div>
+                        ${exp.notes ? `<div class="text-[11px] text-slate-400 font-normal mt-0.5 max-w-xs truncate">${escapeHtml(exp.notes)}</div>` : ''}
+                    </td>
+                    <td class="py-4 px-4">${getCategoryBadge(exp.category)}</td>
+                    <td class="py-4 px-4 text-right font-bold text-slate-800">${formatCurrency(exp.estimated)}</td>
+                    <td class="py-4 px-4 text-right font-semibold text-emerald-600">${formatCurrency(exp.paid)}</td>
+                    <td class="py-4 px-4 text-center">${getStatusBadge(exp.status)}</td>
+                    <td class="py-4 px-6 text-right space-x-1 whitespace-nowrap">
+                        <button onclick="openEditExpenseModal('${exp.id}')" class="text-xs text-slate-500 hover:text-rose-500 hover:bg-rose-50 p-2 rounded-xl transition-colors" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteExpense('${exp.id}')" class="text-xs text-slate-500 hover:text-rose-600 hover:bg-rose-50 p-2 rounded-xl transition-colors" title="Supprimer"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                </tr>
+            `;
+            tableBody.insertAdjacentHTML('beforeend', rowHtml);
+        });
+    }
+}
+
+function filterExpenses() {
+    renderExpensesList();
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+function openBudgetModal() {
+    document.getElementById('input-budget-limit').value = marriageData.budgetLimit;
+    document.getElementById('modal-budget').classList.remove('hidden');
+}
+
+function closeBudgetModal() {
+    document.getElementById('modal-budget').classList.add('hidden');
+}
+
+function saveBudgetLimit() {
+    const value = parseFloat(document.getElementById('input-budget-limit').value);
+    if (!isNaN(value) && value > 0) {
+        marriageData.budgetLimit = value;
+        renderDashboard();
+        closeBudgetModal();
+        triggerCloudSave();
+        showToast("Budget global mis à jour avec succès !", "success");
+    } else {
+        showToast("Veuillez saisir un montant supérieur à 0.", "error");
+    }
+}
+
+function openAddExpenseModal() {
+    document.getElementById('expense-modal-title').innerText = "Ajouter un poste de dépense";
+    document.getElementById('form-expense-id').value = "";
+    document.getElementById('expense-form').reset();
+    document.getElementById('modal-expense').classList.remove('hidden');
+}
+
+function openEditExpenseModal(id) {
+    const exp = marriageData.expenses.find(e => e.id === id);
+    if (!exp) return;
+
+    document.getElementById('expense-modal-title').innerText = "Modifier la dépense";
+    document.getElementById('form-expense-id').value = exp.id;
+    document.getElementById('form-expense-name').value = exp.name;
+    document.getElementById('form-expense-category').value = exp.category;
+    document.getElementById('form-expense-estimated').value = exp.estimated;
+    document.getElementById('form-expense-paid').value = exp.paid;
+    document.getElementById('form-expense-status').value = exp.status;
+    document.getElementById('form-expense-notes').value = exp.notes || "";
+
+    document.getElementById('modal-expense').classList.remove('hidden');
+}
+
+function closeExpenseModal() {
+    document.getElementById('modal-expense').classList.add('hidden');
+}
+
+function handleExpenseFormSubmit(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('form-expense-id').value;
+    const name = document.getElementById('form-expense-name').value;
+    const category = document.getElementById('form-expense-category').value;
+    const estimated = parseFloat(document.getElementById('form-expense-estimated').value);
+    const paid = parseFloat(document.getElementById('form-expense-paid').value) || 0;
+    const status = document.getElementById('form-expense-status').value;
+    const notes = document.getElementById('form-expense-notes').value;
+
+    if (paid > estimated) {
+        showToast("Le montant payé ne peut dépasser le budget estimé.", "error");
+        return;
+    }
+
+    if (id) {
+        const idx = marriageData.expenses.findIndex(e => e.id === id);
+        if (idx !== -1) {
+            marriageData.expenses[idx] = { id, name, category, estimated, paid, status, notes };
+            showToast("La dépense a été mise à jour !");
+        }
+    } else {
+        const newId = Date.now().toString();
+        marriageData.expenses.push({ id: newId, name, category, estimated, paid, status, notes });
+        showToast("Nouveau poste budgétaire ajouté !");
+    }
+
+    closeExpenseModal();
+    renderExpensesList();
+    renderDashboard();
+    triggerCloudSave();
+}
+
+function deleteExpense(id) {
+    marriageData.expenses = marriageData.expenses.filter(e => e.id !== id);
+    showToast("Dépense retirée du budget.", "success");
+    renderExpensesList();
+    renderDashboard();
+    triggerCloudSave();
+}
+
+function exportData() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(marriageData));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "budget_mariage_backup.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    showToast("Export JSON effectué avec succès !");
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            if (parsed.budgetLimit && Array.isArray(parsed.expenses)) {
+                marriageData = parsed;
+                renderDashboard();
+                renderExpensesList();
+                triggerCloudSave();
+                showToast("Fichier de budget importé avec succès !", "success");
+            } else {
+                showToast("Fichier invalide : Format de données incompatible.", "error");
+            }
+        } catch(err) {
+            showToast("Impossible de lire ce fichier de sauvegarde.", "error");
+        }
+    };
+    reader.readAsText(file);
+}
+
+function initFittingRoom() {
+    const outfitContainer = document.getElementById('outfit-picker');
+    if (!outfitContainer) return;
+    outfitContainer.innerHTML = "";
+
+    OUTFITS.forEach(outfit => {
+        const itemHtml = `
+            <div onclick="selectOutfit('${outfit.id}')" id="outfit-card-${outfit.id}" class="outfit-card cursor-pointer border-2 rounded-2xl p-3 flex flex-col items-center gap-2 transition-all duration-300 hover:scale-105 ${
+                selectedOutfit.id === outfit.id ? "border-rose-500 bg-rose-50/40 shadow-sm" : "border-slate-100 hover:border-rose-200"
+            }">
+                <div class="w-20 h-24 flex items-center justify-center overflow-hidden rounded-lg" style="background-color: ${outfit.bgColor};">
+                    ${outfit.svg}
+                </div>
+                <span class="text-[11px] font-bold text-slate-700 text-center">${outfit.name}</span>
+            </div>
+        `;
+        outfitContainer.insertAdjacentHTML('beforeend', itemHtml);
+    });
+
+    const canvas = document.getElementById('fitting-canvas');
+    if (canvas) {
+        canvas.addEventListener('mousedown', startFaceDrag);
+        canvas.addEventListener('mousemove', dragFace);
+        window.addEventListener('mouseup', stopFaceDrag);
+
+        canvas.addEventListener('touchstart', startFaceTouchDrag, { passive: false });
+        canvas.addEventListener('touchmove', dragFaceTouch, { passive: false });
+        window.addEventListener('touchend', stopFaceDrag);
+    }
+
+    drawFittingCanvas();
+}
+
+function selectOutfit(id) {
+    const outfit = OUTFITS.find(o => o.id === id);
+    if (!outfit) return;
+
+    selectedOutfit = outfit;
+
+    document.querySelectorAll('.outfit-card').forEach(card => {
+        card.classList.remove('border-rose-500', 'bg-rose-50/40', 'shadow-sm');
+        card.classList.add('border-slate-100');
+    });
+
+    const activeCard = document.getElementById(`outfit-card-${id}`);
+    if (activeCard) {
+        activeCard.classList.remove('border-slate-100');
+        activeCard.classList.add('border-rose-500', 'bg-rose-50/40', 'shadow-sm');
+    }
+
+    drawFittingCanvas();
+}
+
+function loadFaceImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            faceImage = img;
+            document.getElementById('face-loaded-indicator').classList.remove('hidden');
+            document.getElementById('canvas-placeholder').classList.add('hidden');
+            resetFaceTransform();
+            showToast("Visage chargé ! Ajustez-le sur le canevas.", "success");
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+// Camera activation
+async function toggleWebcam() {
+    const webcamContainer = document.getElementById('webcam-container');
+    const webcamBtnText = document.getElementById('webcam-btn-text');
+    const video = document.getElementById('webcam-video');
+
+    if (webcamContainer.classList.contains('hidden')) {
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 320 } });
+            video.srcObject = mediaStream;
+            webcamContainer.classList.remove('hidden');
+            webcamBtnText.innerText = "Fermer Caméra";
+        } catch(err) {
+            showToast("Impossible d'accéder à l'appareil photo/caméra.", "error");
+        }
+    } else {
+        stopWebcam();
+    }
+}
+
+function stopWebcam() {
+    const webcamContainer = document.getElementById('webcam-container');
+    const webcamBtnText = document.getElementById('webcam-btn-text');
+    const video = document.getElementById('webcam-video');
+
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+    }
+    video.srcObject = null;
+    webcamContainer.classList.add('hidden');
+    webcamBtnText.innerText = "Prendre Photo";
+}
+
+function captureFromWebcam() {
+    const video = document.getElementById('webcam-video');
+    if (!mediaStream) return;
+
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = video.videoWidth;
+    tempCanvas.height = video.videoHeight;
+    
+    const ctx = tempCanvas.getContext('2d');
+    ctx.translate(tempCanvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0, tempCanvas.width, tempCanvas.height);
+
+    const dataUrl = tempCanvas.toDataURL('image/png');
+    const img = new Image();
+    img.onload = function() {
+        faceImage = img;
+        document.getElementById('face-loaded-indicator').classList.remove('hidden');
+        document.getElementById('canvas-placeholder').classList.add('hidden');
+        
+        resetFaceTransform();
+        stopWebcam();
+        showToast("Photo capturée avec succès !", "success");
+    };
+    img.src = dataUrl;
+}
+
+function startFaceDrag(e) {
+    if (!faceImage) return;
+    const rect = document.getElementById('fitting-canvas').getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    isDragging = true;
+    startDragX = x;
+    startDragY = y;
+    baseFaceX = faceTransform.x;
+    baseFaceY = faceTransform.y;
+}
+
+function dragFace(e) {
+    if (!isDragging) return;
+    const rect = document.getElementById('fitting-canvas').getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const dx = x - startDragX;
+    const dy = y - startDragY;
+
+    faceTransform.x = baseFaceX + dx;
+    faceTransform.y = baseFaceY + dy;
+
+    document.getElementById('slider-pos-x').value = faceTransform.x - 200;
+    document.getElementById('slider-pos-y').value = faceTransform.y - 135;
+
+    drawFittingCanvas();
+}
+
+function startFaceTouchDrag(e) {
+    if (e.touches.length === 0) return;
+    e.preventDefault(); 
+    if (!faceImage) return;
+
+    const rect = document.getElementById('fitting-canvas').getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    isDragging = true;
+    startDragX = x;
+    startDragY = y;
+    baseFaceX = faceTransform.x;
+    baseFaceY = faceTransform.y;
+}
+
+function dragFaceTouch(e) {
+    if (!isDragging || e.touches.length === 0) return;
+    e.preventDefault();
+    const rect = document.getElementById('fitting-canvas').getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    const dx = x - startDragX;
+    const dy = y - startDragY;
+
+    faceTransform.x = baseFaceX + dx;
+    faceTransform.y = baseFaceY + dy;
+
+    document.getElementById('slider-pos-x').value = faceTransform.x - 200;
+    document.getElementById('slider-pos-y').value = faceTransform.y - 135;
+
+    drawFittingCanvas();
+}
+
+function stopFaceDrag() {
+    isDragging = false;
+}
+
+function updateFaceTransform() {
+    faceTransform.scale = parseFloat(document.getElementById('slider-scale').value);
+    faceTransform.rotate = parseInt(document.getElementById('slider-rotate').value);
+    faceTransform.x = 200 + parseInt(document.getElementById('slider-pos-x').value);
+    faceTransform.y = 135 + parseInt(document.getElementById('slider-pos-y').value);
+    
+    faceTransform.brightness = parseInt(document.getElementById('slider-brightness').value);
+    faceTransform.contrast = parseInt(document.getElementById('slider-contrast').value);
+
+    document.getElementById('val-scale').innerText = faceTransform.scale.toFixed(2);
+    document.getElementById('val-rotate').innerText = `${faceTransform.rotate}°`;
+    document.getElementById('val-brightness').innerText = `${faceTransform.brightness}%`;
+    document.getElementById('val-contrast').innerText = `${faceTransform.contrast}%`;
+
+    drawFittingCanvas();
+}
+
+function resetFaceTransform() {
+    faceTransform = {
+        x: 200,
+        y: 135,
+        scale: 0.55,
+        rotate: 0,
+        brightness: 100,
+        contrast: 100
+    };
+
+    document.getElementById('slider-scale').value = 0.55;
+    document.getElementById('slider-rotate').value = 0;
+    document.getElementById('slider-pos-x').value = 0;
+    document.getElementById('slider-pos-y').value = 0;
+    document.getElementById('slider-brightness').value = 100;
+    document.getElementById('slider-contrast').value = 100;
+
+    document.getElementById('val-scale').innerText = "0.55";
+    document.getElementById('val-rotate').innerText = "0°";
+    document.getElementById('val-brightness').innerText = "100%";
+    document.getElementById('val-contrast').innerText = "100%";
+
+    drawFittingCanvas();
+}
+
+function drawFittingCanvas() {
+    const canvas = document.getElementById('fitting-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = selectedOutfit.bgColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (!faceImage) {
+        ctx.strokeStyle = "rgba(244, 63, 94, 0.2)";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.ellipse(200, 135, 45, 60, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    if (faceImage) {
+        ctx.save();
+        ctx.translate(faceTransform.x, faceTransform.y);
+        ctx.rotate((faceTransform.rotate * Math.PI) / 180);
+        ctx.scale(faceTransform.scale, faceTransform.scale);
+        
+        ctx.filter = `brightness(${faceTransform.brightness}%) contrast(${faceTransform.contrast}%)`;
+
+        const w = faceImage.width;
+        const h = faceImage.height;
+        ctx.drawImage(faceImage, -w/2, -h/2, w, h);
+        ctx.restore();
+    }
+
+    const svgString = selectedOutfit.svg;
+    const imgSvg = new Image();
+    
+    const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(svgBlob);
+    
+    imgSvg.onload = function() {
+        ctx.drawImage(imgSvg, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+    };
+    imgSvg.src = url;
+}
+
+function downloadSimulation() {
+    if (!faceImage) {
+        showToast("Veuillez d'abord uploader votre visage pour l'enregistrer !", "error");
+        return;
+    }
+
+    const canvas = document.getElementById('fitting-canvas');
+    const dataUrl = canvas.toDataURL('image/png');
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.href = dataUrl;
+    downloadAnchor.download = `simulation_mariage_${selectedOutfit.id}.png`;
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+
+    showToast("Votre simulation d'essayage a été enregistrée !", "success");
+}
+
+// Attach functions explicitly to global window scope for HTML onclick events
+window.switchTab = switchTab;
+window.openBudgetModal = openBudgetModal;
+window.closeBudgetModal = closeBudgetModal;
+window.saveBudgetLimit = saveBudgetLimit;
+window.openAddExpenseModal = openAddExpenseModal;
+window.openEditExpenseModal = openEditExpenseModal;
+window.closeExpenseModal = closeExpenseModal;
+window.handleExpenseFormSubmit = handleExpenseFormSubmit;
+window.deleteExpense = deleteExpense;
+window.exportData = exportData;
+window.importData = importData;
+window.filterExpenses = filterExpenses;
+window.selectOutfit = selectOutfit;
+window.loadFaceImage = loadFaceImage;
+window.toggleWebcam = toggleWebcam;
+window.captureFromWebcam = captureFromWebcam;
+window.updateFaceTransform = updateFaceTransform;
+window.resetFaceTransform = resetFaceTransform;
+window.downloadSimulation = downloadSimulation;
+
+// Initialize app with Firebase on load
+window.addEventListener('DOMContentLoaded', () => {
+    initializeDatabase();
+});
+</script>
+</body>
+</html>
