@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Mariage de Rêve - Budget en Ariary, Cabine d'Essayage & Style IA</title>
+    <title>Mon Mariage de Rêve - Planificateur de Budget Collaboratif en Ariary</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Playfair Display -->
@@ -18,7 +18,6 @@
         .font-serif {
             font-family: 'Playfair Display', serif;
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -41,34 +40,61 @@
     <!-- Header/Navigation -->
     <header class="bg-white border-b border-pink-100 sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-4 gap-4">
+                
+                <!-- Brand Title -->
                 <div class="flex items-center space-x-3">
                     <div class="bg-gradient-to-br from-pink-400 to-rose-500 text-white p-2.5 rounded-full shadow-md shadow-pink-200">
                         <i class="fa-solid fa-heart-pulse text-xl animate-pulse"></i>
                     </div>
                     <div>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <h1 class="font-serif text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-500">Mon Mariage d'Amour</h1>
                             <!-- Cloud Status Indicator -->
                             <span id="cloud-status" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-800 border border-amber-200 gap-1">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-                                Connexion...
+                                Connexion Firebase...
                             </span>
                         </div>
-                        <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Planificateur en Ariary (Ar) & Essayage IA</p>
+                        <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Planificateur Collaboratif en Ariary (Ar) & Essayage IA</p>
                     </div>
                 </div>
-                <!-- Navigation Tabs -->
-                <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-xl">
-                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 bg-white text-rose-600 shadow-sm">
-                        <i class="fa-solid fa-chart-pie"></i>
-                        <span class="hidden md:inline">Tableau de Bord</span>
+
+                <!-- Collaborative Synchronization Controls -->
+                <div class="flex flex-wrap items-center gap-3 bg-pink-50/50 p-2 rounded-2xl border border-pink-100/50">
+                    <div class="text-xs font-semibold text-rose-800 px-2">
+                        <span class="block text-[10px] text-pink-500 uppercase">Projet Partagé :</span>
+                        <span id="wedding-code-display" class="font-mono text-sm tracking-wider font-bold">CHARGEMENT...</span>
+                    </div>
+                    <button onclick="copyShareLink()" class="bg-white hover:bg-rose-100 text-rose-600 border border-rose-200 py-1.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="Copier le lien d'invitation">
+                        <i class="fa-solid fa-link"></i> <span class="hidden sm:inline">Copier le lien de partage</span>
                     </button>
-                    <button onclick="switchTab('expenses')" id="tab-expenses" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
+                    <div class="h-6 w-px bg-rose-200 hidden sm:block"></div>
+                    <button onclick="toggleJoinSection()" class="text-slate-600 hover:text-rose-600 text-xs font-semibold px-2 py-1.5 rounded-lg">
+                        <i class="fa-solid fa-right-to-bracket"></i> Rejoindre un code
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Hidden Join Section -->
+            <div id="join-section" class="hidden border-t border-slate-100 py-3 flex flex-wrap gap-2 items-center justify-end">
+                <span class="text-xs text-slate-500">Saisissez un code existant pour synchroniser votre conjoint(e) :</span>
+                <input type="text" id="join-code-input" placeholder="Ex: MAR-A3DF" class="uppercase font-mono text-center border border-slate-200 rounded-lg px-2 py-1 text-xs focus:ring-2 focus:ring-rose-400 outline-none w-28">
+                <button onclick="joinWeddingWithCode()" class="bg-rose-500 text-white text-xs font-semibold px-3 py-1 rounded-lg hover:bg-rose-600 transition-colors">Valider</button>
+            </div>
+
+            <!-- Tab Switcher Navigation -->
+            <div class="flex justify-center border-t border-slate-100 pb-1">
+                <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1 rounded-xl my-2">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 bg-white text-rose-600 shadow-sm">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Tableau de Bord</span>
+                    </button>
+                    <button onclick="switchTab('expenses')" id="tab-expenses" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
                         <i class="fa-solid fa-receipt"></i>
                         <span>Budget & Dépenses</span>
                     </button>
-                    <button onclick="switchTab('fitting')" id="tab-fitting" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
+                    <button onclick="switchTab('fitting')" id="tab-fitting" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:text-rose-500">
                         <i class="fa-solid fa-shirt"></i>
                         <span>Cabine d'Essayage IA</span>
                     </button>
@@ -81,16 +107,16 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <!-- DASHBOARD TAB -->
-        <div id="view-dashboard" class="space-y-8 animate-fadeIn">
+        <div id="view-dashboard" class="space-y-8">
             <!-- Hero Welcome Card -->
             <div class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-rose-100 relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">
                     <i class="fa-solid fa-ring"></i>
                 </div>
                 <div class="relative z-10 max-w-2xl">
-                    <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm">Félicitations pour votre engagement !</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 leading-tight">Planifiez vos dépenses en Ariary en toute sérénité</h2>
-                    <p class="mt-3 text-white/90 text-sm sm:text-base leading-relaxed">Suivez précisément votre budget de mariage, catégorisez toutes vos dépenses et visualisez-vous instantanément dans vos tenues idéales grâce à notre cabine d'essayage virtuelle.</p>
+                    <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm">Budget synchronisé en temps réel sur tous vos écrans !</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 leading-tight">Planifiez vos dépenses de mariage en Ariary</h2>
+                    <p class="mt-3 text-white/90 text-sm sm:text-base leading-relaxed">Suivez précisément vos dépenses à deux. Partagez le code ou le lien en haut à droite avec votre partenaire ou vos proches pour suivre en temps réel la préparation de la cérémonie.</p>
                 </div>
             </div>
 
@@ -99,17 +125,17 @@
                 <!-- Budget Total Card -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-slate-400">Budget Alloué</span>
+                        <span class="text-sm font-medium text-slate-400">Budget Global Estimé</span>
                         <div class="bg-blue-50 text-blue-500 p-2 rounded-xl"><i class="fa-solid fa-wallet"></i></div>
                     </div>
                     <div class="mt-4 flex items-baseline justify-between">
                         <span id="stat-total-budget" class="text-xl sm:text-2xl font-bold text-slate-800">35 000 000 Ar</span>
                         <button onclick="openBudgetModal()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">Modifier <i class="fa-solid fa-pen text-[10px]"></i></button>
                     </div>
-                    <div class="mt-2 text-xs text-slate-400">Votre limite financière totale</div>
+                    <div class="mt-2 text-xs text-slate-400">Limite de budget que vous vous fixez</div>
                 </div>
 
-                <!-- Total Spent Card -->
+                <!-- Total Engaged Card -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
                         <span class="text-sm font-medium text-slate-400">Total Engagé / Estimé</span>
@@ -126,26 +152,26 @@
                 <!-- Total Paid Card -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-slate-400">Total Payé (Acomptes)</span>
+                        <span class="text-sm font-medium text-slate-400">Montant Déjà Payé</span>
                         <div class="bg-emerald-50 text-emerald-500 p-2 rounded-xl"><i class="fa-solid fa-circle-check"></i></div>
                     </div>
                     <div class="mt-4">
                         <span id="stat-total-paid" class="text-xl sm:text-2xl font-bold text-slate-800">0 Ar</span>
                     </div>
-                    <div class="mt-2 text-xs text-emerald-500 font-medium">Fonds déjà versés aux prestataires</div>
+                    <div class="mt-2 text-xs text-emerald-500 font-medium">Acomptes ou soldes déjà versés</div>
                 </div>
 
-                <!-- Reste à Payer Card (CRITICAL UPDATE FOR USER) -->
+                <!-- Reste à Payer Card (Outstanding Balance) -->
                 <div class="bg-gradient-to-br from-rose-50 to-amber-50 p-6 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-bold text-rose-700">Reste à Payer aux Prestataires</span>
+                        <span class="text-sm font-bold text-rose-700">Reste à Solder</span>
                         <div class="bg-rose-500 text-white p-2 rounded-xl shadow-sm"><i class="fa-solid fa-hourglass-half"></i></div>
                     </div>
                     <div class="mt-4">
                         <span id="stat-remaining-to-pay" class="text-xl sm:text-2xl font-extrabold text-rose-800">0 Ar</span>
                     </div>
                     <div class="mt-2 text-xs text-rose-600 font-medium flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info"></i> Somme qu'il vous reste à solder
+                        <i class="fa-solid fa-circle-info"></i> Somme qu'il vous reste à payer aux prestataires
                     </div>
                 </div>
             </div>
@@ -156,7 +182,7 @@
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
                     <div>
                         <h3 class="font-serif text-lg font-bold text-slate-800">Progression du Budget</h3>
-                        <p class="text-xs text-slate-400">Visualisation rapide de vos dépenses</p>
+                        <p class="text-xs text-slate-400">Visualisation de l'avancement global</p>
                     </div>
                     <div class="my-6 flex justify-center items-center relative">
                         <svg class="w-48 h-48 transform -rotate-90">
@@ -166,7 +192,7 @@
                         </svg>
                         <div class="absolute flex flex-col items-center">
                             <span id="gauge-percent" class="text-3xl font-extrabold text-slate-800">0%</span>
-                            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Consommé</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Engagé</span>
                         </div>
                     </div>
                     <div class="flex justify-around text-center border-t border-slate-50 pt-4 text-xs">
@@ -182,7 +208,7 @@
                         <div class="border-l border-slate-100 h-8"></div>
                         <div>
                             <span class="block font-bold text-blue-500" id="stat-percent-remaining">100%</span>
-                            <span class="text-slate-400">Libre (Budget)</span>
+                            <span class="text-slate-400">Libre</span>
                         </div>
                     </div>
                 </div>
@@ -192,40 +218,24 @@
                     <div class="flex justify-between items-center mb-4">
                         <div>
                             <h3 class="font-serif text-lg font-bold text-slate-800">Dépenses par Catégorie</h3>
-                            <p class="text-xs text-slate-400">Où va votre budget de mariage ?</p>
+                            <p class="text-xs text-slate-400">Répartition par pôle de dépenses</p>
                         </div>
                         <button onclick="switchTab('expenses')" class="text-xs text-rose-500 hover:underline font-semibold">Gérer tout <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     <div id="category-progress-list" class="space-y-4">
-                        <!-- Dynamically filled by Javascript -->
+                        <!-- Dynamically filled -->
                     </div>
                 </div>
-            </div>
-
-            <!-- Quick Tips & Shortcuts -->
-            <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-100/50 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center space-x-4">
-                    <span class="text-3xl">👗</span>
-                    <div>
-                        <h4 class="font-bold text-slate-800 text-sm">Prêt pour les essayages avec conseil IA ?</h4>
-                        <p class="text-xs text-slate-500">Mettez une photo de votre visage, importez vos propres tenues personnalisées ou utilisez les nôtres, puis demandez conseil à Gemini Styliste !</p>
-                    </div>
-                </div>
-                <button onclick="switchTab('fitting')" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xs font-semibold px-5 py-3 rounded-xl shadow-md transition-all whitespace-nowrap">
-                    Lancer la simulation <i class="fa-solid fa-wand-magic-sparkles ml-1"></i>
-                </button>
             </div>
         </div>
 
         <!-- EXPENSES TAB -->
-        <div id="view-expenses" class="hidden space-y-8 animate-fadeIn">
-            <!-- Header for expenses -->
+        <div id="view-expenses" class="hidden space-y-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Dépenses de Mariage</h2>
-                    <p class="text-sm text-slate-400">Ajustez, ajoutez ou payez vos différents postes de dépenses.</p>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Gestion détaillée des charges</h2>
+                    <p class="text-sm text-slate-400">Ajoutez les détails précis de chaque prestataire de votre mariage.</p>
                 </div>
-                <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2 w-full md:w-auto">
                     <button onclick="openAddExpenseModal()" class="flex-grow md:flex-grow-0 bg-rose-500 hover:bg-rose-600 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-rose-100 transition-all flex items-center justify-center gap-2">
                         <i class="fa-solid fa-plus"></i> Ajouter une dépense
@@ -262,13 +272,13 @@
                         <option value="all">Tous les statuts</option>
                         <option value="payé">Payé</option>
                         <option value="acompte">Acompte payé</option>
-                        <option value="en-attente">En attente</option>
+                        <option value="en-attente">En attente (Contrat signé)</option>
                         <option value="planifié">Planifié</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Expense Items Table / List -->
+            <!-- Expense Items Table -->
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -278,13 +288,13 @@
                                 <th class="py-4 px-4">Catégorie</th>
                                 <th class="py-4 px-4 text-right">Budget Estimé</th>
                                 <th class="py-4 px-4 text-right">Montant Payé</th>
-                                <th class="py-4 px-4 text-right">Reste à payer</th>
+                                <th class="py-4 px-4 text-right">Reste à solder</th>
                                 <th class="py-4 px-4 text-center">Statut</th>
                                 <th class="py-4 px-6 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="expense-table-body" class="divide-y divide-slate-50 text-sm text-slate-700">
-                            <!-- Populated dynamically via Javascript -->
+                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -292,17 +302,17 @@
                 <div id="expenses-empty-state" class="hidden flex flex-col items-center justify-center py-16 px-4 text-center">
                     <span class="text-5xl mb-4">🔍</span>
                     <h3 class="font-serif text-lg font-bold text-slate-800">Aucune dépense trouvée</h3>
-                    <p class="text-sm text-slate-400 mt-1">Essayez d'ajuster vos filtres de recherche ou ajoutez un nouvel élément.</p>
+                    <p class="text-sm text-slate-400 mt-1">Saisissez un autre terme ou ajoutez un nouveau poste de dépense.</p>
                 </div>
             </div>
         </div>
 
-        <!-- FITTING TAB (VIRTUAL CABIN & GEMINI ADVISOR) -->
-        <div id="view-fitting" class="hidden space-y-8 animate-fadeIn">
+        <!-- FITTING TAB -->
+        <div id="view-fitting" class="hidden space-y-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Salon d'Essayage Virtuel & Gemini Styliste</h2>
-                    <p class="text-sm text-slate-400">Positionnez votre visage sur nos mannequins ou importez vos propres tenues, puis demandez conseil à l'IA.</p>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Salon d'Essayage & Conseils Gemini IA</h2>
+                    <p class="text-sm text-slate-400">Superposez votre visage sur les modèles et profitez d'analyses de style exclusives.</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="downloadSimulation()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-emerald-100 transition-all flex items-center gap-2">
@@ -318,11 +328,10 @@
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                         <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-user-tie text-rose-500"></i> Étape 1 : Votre Visage</h3>
                         
-                        <!-- Upload options -->
                         <div class="grid grid-cols-2 gap-2">
                             <label class="cursor-pointer bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center text-xs hover:bg-slate-100 transition-all">
                                 <i class="fa-solid fa-image text-rose-400 text-lg mb-1.5"></i>
-                                <span class="font-semibold text-slate-700">Uploader</span>
+                                <span class="font-semibold text-slate-700">Parcourir photo</span>
                                 <input type="file" id="face-image-loader" accept="image/*" class="hidden" onchange="loadFaceImage(event)">
                             </label>
                             <button onclick="toggleWebcam()" class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center text-xs hover:bg-slate-100 transition-all">
@@ -331,7 +340,7 @@
                             </button>
                         </div>
 
-                        <!-- Webcam live view (hidden until activated) -->
+                        <!-- Webcam live view -->
                         <div id="webcam-container" class="hidden relative rounded-xl overflow-hidden bg-black aspect-square">
                             <video id="webcam-video" autoplay playsinline class="w-full h-full object-cover"></video>
                             <button onclick="captureFromWebcam()" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-rose-500 text-white p-3 rounded-full hover:bg-rose-600 shadow-lg flex items-center justify-center"><i class="fa-solid fa-camera"></i></button>
@@ -339,55 +348,54 @@
 
                         <!-- Loaded indicator -->
                         <div id="face-loaded-indicator" class="hidden bg-emerald-50 text-emerald-700 rounded-xl p-3 text-xs flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Visage importé avec succès ! Ajustez-le sur le mannequin.
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Visage chargé ! Glissez-le pour ajuster.
                         </div>
                     </div>
 
-                    <!-- Outfit Selection Card WITH CUSTOM IMPORT BUTTON -->
+                    <!-- Outfit Selection Card with Custom Outfit Import ("Parcourir Vêtement") -->
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-shirt text-rose-500"></i> Étape 2 : Tenue</h3>
+                        <div class="flex justify-between items-center flex-wrap gap-2">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-shirt text-rose-500"></i> Étape 2 : Choix de la Tenue</h3>
                             
-                            <!-- BROWSE CUSTOM OUTFIT (USER DIRECTIVE) -->
-                            <label class="cursor-pointer bg-rose-50 hover:bg-rose-100 text-rose-600 text-[10px] font-bold px-2.5 py-1.5 rounded-lg border border-rose-200 transition-all flex items-center gap-1">
+                            <!-- BROWSE CUSTOM OUTFIT -->
+                            <label class="cursor-pointer bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-bold px-3 py-1.5 rounded-xl border border-rose-200 transition-all flex items-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-folder-open"></i> Parcourir Vêtement
                                 <input type="file" id="outfit-image-loader" accept="image/*" class="hidden" onchange="loadCustomOutfit(event)">
                             </label>
                         </div>
-                        <p class="text-[10px] text-slate-400 mt-[-5px]">Sélectionnez un modèle ou importez votre propre image de robe ou de costume (PNG transparent recommandé).</p>
+                        <p class="text-[10px] text-slate-400">Sélectionnez nos templates ou importez votre propre robe ou costume (les images PNG détourées fonctionnent au mieux).</p>
                         
                         <div class="grid grid-cols-2 gap-3" id="outfit-picker">
-                            <!-- Dynamically added outfit templates -->
+                            <!-- Dynamically added outfits -->
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Main Center canvas preview -->
+                <!-- 2. Main Center Canvas Preview -->
                 <div class="lg:col-span-5 flex flex-col items-center bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative">
                     <div class="w-full flex justify-between items-center mb-4">
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Prévisualisation d'essayage</span>
-                        <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-circle-info mr-1"></i>Glissez-déposez le visage</span>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Aperçu interactif</span>
+                        <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-circle-info mr-1"></i>Glissez & déplacez votre visage</span>
                     </div>
 
-                    <!-- Canvas container for responsive auto-scale layout -->
                     <div class="relative max-w-full overflow-hidden border border-slate-100 rounded-2xl bg-gradient-to-tr from-rose-50/20 via-slate-100 to-pink-50/20 flex items-center justify-center shadow-inner" style="width: 400px; height: 500px;">
                         <canvas id="fitting-canvas" width="400" height="500" class="cursor-move bg-transparent absolute top-0 left-0"></canvas>
                         <!-- Loader overlay -->
                         <div id="canvas-placeholder" class="pointer-events-none text-center p-6 text-slate-400 absolute flex flex-col items-center">
                             <span class="text-5xl animate-bounce mb-3">👗</span>
-                            <p class="text-xs font-semibold">Uploadez votre visage pour commencer !</p>
+                            <p class="text-xs font-semibold">Uploadez votre visage pour commencer la simulation !</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Fine-tuning sliders Panel & Gemini Style Advisor (Right side) -->
+                <!-- 3. Fine-tuning Sliders Panel (Right side) -->
                 <div class="lg:col-span-3 space-y-6">
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-rose-500"></i> Ajustements du Visage</h3>
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-rose-500"></i> Réglages</h3>
                         
-                        <!-- Layer Position Switch (Useful when importing custom garments) -->
+                        <!-- Layer Position Switch (Behind / Front) -->
                         <div class="space-y-1 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Position du Visage</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Superposition Visage</label>
                             <div class="grid grid-cols-2 gap-1 bg-white p-0.5 rounded-lg border border-slate-200 text-[11px]">
                                 <button onclick="setFaceLayerOrder('behind')" id="btn-layer-behind" class="py-1 rounded-md font-semibold text-rose-600 bg-rose-50">Sous la tenue</button>
                                 <button onclick="setFaceLayerOrder('front')" id="btn-layer-front" class="py-1 rounded-md font-semibold text-slate-600 hover:bg-slate-50">Sur la tenue</button>
@@ -397,7 +405,7 @@
                         <!-- Scale Slider -->
                         <div class="space-y-1">
                             <div class="flex justify-between text-xs font-semibold text-slate-600">
-                                <span>Taille (Zoom)</span>
+                                <span>Zoom visage</span>
                                 <span id="val-scale">0.55</span>
                             </div>
                             <input type="range" id="slider-scale" min="0.1" max="3" step="0.05" value="0.55" oninput="updateFaceTransform()" class="w-full accent-rose-500">
@@ -406,7 +414,7 @@
                         <!-- Rotation Slider -->
                         <div class="space-y-1">
                             <div class="flex justify-between text-xs font-semibold text-slate-600">
-                                <span>Rotation (Degrés)</span>
+                                <span>Rotation</span>
                                 <span id="val-rotate">0°</span>
                             </div>
                             <input type="range" id="slider-rotate" min="-180" max="180" step="1" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
@@ -415,7 +423,7 @@
                         <!-- Position X Slider -->
                         <div class="space-y-1">
                             <div class="flex justify-between text-xs font-semibold text-slate-600">
-                                <span>Position Horizontale (X)</span>
+                                <span>Décalage X</span>
                             </div>
                             <input type="range" id="slider-pos-x" min="-200" max="200" step="2" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
                         </div>
@@ -423,7 +431,7 @@
                         <!-- Position Y Slider -->
                         <div class="space-y-1">
                             <div class="flex justify-between text-xs font-semibold text-slate-600">
-                                <span>Position Verticale (Y)</span>
+                                <span>Décalage Y</span>
                             </div>
                             <input type="range" id="slider-pos-y" min="-250" max="250" step="2" value="0" oninput="updateFaceTransform()" class="w-full accent-rose-500">
                         </div>
@@ -450,7 +458,6 @@
                             <input type="range" id="slider-contrast" min="50" max="150" step="1" value="100" oninput="updateFaceTransform()" class="w-full accent-rose-500">
                         </div>
 
-                        <!-- Reset Button -->
                         <button onclick="resetFaceTransform()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-all">
                             Réinitialiser la position
                         </button>
@@ -458,16 +465,15 @@
                 </div>
             </div>
 
-            <!-- GEMINI EXPERT AI STYLE ADVISOR PANEL (USER REQUEST) -->
+            <!-- GEMINI STYLE ADVISOR PANEL -->
             <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-6 border border-purple-100/50 shadow-sm mt-8">
                 <div class="flex flex-col md:flex-row gap-6">
-                    <!-- Stylist Prompt Options -->
                     <div class="md:w-1/3 space-y-4">
                         <div class="flex items-center space-x-2">
                             <div class="bg-indigo-600 text-white p-2 rounded-xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                             <div>
                                 <h3 class="font-serif text-lg font-bold text-slate-800">Conseiller Style IA (Gemini)</h3>
-                                <p class="text-[11px] text-slate-400">Des idées mode adaptées à votre choix de vêtement.</p>
+                                <p class="text-[11px] text-slate-400 font-medium">L'intelligence artificielle analyse votre tenue de mariage.</p>
                             </div>
                         </div>
 
@@ -475,55 +481,52 @@
                             <div>
                                 <label class="text-xs font-bold text-slate-600 block mb-1">Thème de votre Mariage :</label>
                                 <select id="gemini-wedding-theme" class="w-full bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                                    <option value="Bohème / Champêtre">Bohème / Champêtre (Nature, fleurs sauvages)</option>
-                                    <option value="Chic / Glamour">Chic / Glamour (Grande réception, luxe)</option>
-                                    <option value="Traditionnel / Classique">Traditionnel / Classique (Sobre, elegant)</option>
-                                    <option value="Moderne / Minimaliste">Moderne / Minimaliste (Épuré, géométrique)</option>
-                                    <option value="Tropical / Plage">Tropical / Plage (Exotique, léger)</option>
+                                    <option value="Bohème / Champêtre">Bohème / Champêtre (Nature, fleurs sauvages, simplicité)</option>
+                                    <option value="Chic / Glamour">Chic / Glamour (Grande réception, élégance moderne)</option>
+                                    <option value="Traditionnel / Classique">Traditionnel / Classique (Sobriété royale, église, châteaux)</option>
+                                    <option value="Moderne / Minimaliste">Moderne / Minimaliste (Épuré, géométrique, moderne)</option>
+                                    <option value="Tropical / Plage">Tropical / Plage (Exotique, matières légères, couleurs)</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label class="text-xs font-bold text-slate-600 block mb-1">Votre Question Spécifique :</label>
-                                <textarea id="gemini-user-prompt" rows="2" class="w-full bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder-slate-400" placeholder="Ex: Quel type de coiffure ou de bouquet me conseillez-vous avec cette robe ?"></textarea>
+                                <label class="text-xs font-bold text-slate-600 block mb-1">Une exigence particulière ?</label>
+                                <textarea id="gemini-user-prompt" rows="2" class="w-full bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder-slate-400" placeholder="Ex: Quelle coiffure choisir avec mon type de visage ? Quels bijoux ?"></textarea>
                             </div>
 
                             <button onclick="askGeminiStylist()" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-sparkles"></i> Demander Conseil à l'IA Gemini
+                                <i class="fa-solid fa-sparkles"></i> Demander Conseils Mode à Gemini
                             </button>
                         </div>
                     </div>
 
-                    <!-- Stylist Response Bubble -->
                     <div class="md:w-2/3 bg-white p-5 rounded-2xl border border-indigo-50 shadow-inner flex flex-col justify-between min-h-[220px]">
                         <div>
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase bg-indigo-50 text-indigo-700 border border-indigo-100">
                                 <i class="fa-solid fa-comments"></i> Styliste Virtuel Gemini
                             </span>
                             
-                            <!-- Response Text Container -->
                             <div id="gemini-advisor-response" class="mt-4 text-xs text-slate-600 leading-relaxed space-y-2 max-h-[260px] overflow-y-auto pr-2">
-                                <p class="italic text-slate-400">Bonjour ! Sélectionnez un thème de mariage, votre tenue préférée, puis cliquez sur le bouton pour obtenir des conseils professionnels et des astuces d'accessoires sur-mesure pour sublimer votre allure royale.</p>
+                                <p class="italic text-slate-400">Bonjour ! Choisissez un thème de mariage, votre tenue préférée, puis cliquez sur le bouton pour obtenir des recommandations d'accessoires de mode (bouquets, coiffure, bijoux, chaussures) adaptées à votre silhouette virtuelle.</p>
                             </div>
                         </div>
 
                         <!-- Animated loader -->
                         <div id="gemini-loader" class="hidden flex items-center justify-center py-8">
                             <div class="flex items-center space-x-2 animate-pulse text-indigo-600 text-xs font-semibold">
-                                <i class="fa-solid fa-circle-notch animate-spin mr-1"></i> Gemini étudie votre tenue et rédige ses conseils...
+                                <i class="fa-solid fa-circle-notch animate-spin mr-1"></i> Gemini étudie la tenue et votre thème...
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-100 py-6 text-center text-xs text-slate-400">
         <div class="max-w-7xl mx-auto px-4">
-            <p>© 2026 Organisateur de Mariage Royal. Tous droits réservés. Vos données sont synchronisées en direct avec votre Cloud Firebase.</p>
+            <p>© 2026 Organisateur de Mariage Royal. Synchronisé en temps réel avec Firebase.</p>
         </div>
     </footer>
 </div>
@@ -534,12 +537,12 @@
 <div id="modal-budget" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-100 p-6 space-y-4 animate-scaleUp">
         <div class="flex justify-between items-center">
-            <h3 class="font-serif text-lg font-bold text-slate-800">Modifier le Budget de Mariage (Ar)</h3>
+            <h3 class="font-serif text-lg font-bold text-slate-800">Modifier le Budget (Ariary)</h3>
             <button onclick="closeBudgetModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
         <div class="space-y-2">
-            <label class="text-xs font-semibold text-slate-500">Montant Maximum Alloué (en Ariary)</label>
-            <input type="number" id="input-budget-limit" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: 35000000">
+            <label class="text-xs font-semibold text-slate-500">Montant Global Alloué (Ar)</label>
+            <input type="number" id="input-budget-limit" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400">
         </div>
         <div class="flex gap-2 justify-end pt-2">
             <button onclick="closeBudgetModal()" class="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded-xl">Annuler</button>
@@ -552,7 +555,7 @@
 <div id="modal-expense" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-100 p-6 space-y-4 animate-scaleUp max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center">
-            <h3 id="expense-modal-title" class="font-serif text-lg font-bold text-slate-800">Ajouter un poste de dépense</h3>
+            <h3 id="expense-modal-title" class="font-serif text-lg font-bold text-slate-800">Ajouter une charge</h3>
             <button onclick="closeExpenseModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
         
@@ -560,13 +563,11 @@
             <input type="hidden" id="form-expense-id">
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Name -->
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-500">Nom du poste / Prestataire</label>
-                    <input type="text" id="form-expense-name" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Traiteur">
+                    <input type="text" id="form-expense-name" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Photographe">
                 </div>
                 
-                <!-- Category -->
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-500">Catégorie</label>
                     <select id="form-expense-category" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-400">
@@ -582,33 +583,29 @@
                     </select>
                 </div>
 
-                <!-- Estimated cost -->
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-500">Budget Estimé (Ar)</label>
                     <input type="number" step="1" id="form-expense-estimated" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400">
                 </div>
 
-                <!-- Paid cost -->
                 <div class="space-y-1">
-                    <label class="text-xs font-semibold text-slate-500">Montant déjà Payé (Ar)</label>
+                    <label class="text-xs font-semibold text-slate-500">Montant déjà versé (Ar)</label>
                     <input type="number" step="1" id="form-expense-paid" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400">
                 </div>
 
-                <!-- Status -->
                 <div class="space-y-1 md:col-span-2">
-                    <label class="text-xs font-semibold text-slate-500">Statut de la dépense</label>
+                    <label class="text-xs font-semibold text-slate-500">Statut de la charge</label>
                     <select id="form-expense-status" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-400">
-                        <option value="planifié">Planifié (Non engagé)</option>
-                        <option value="en-attente">En attente (Contrat signé, rien payé)</option>
+                        <option value="planifié">Planifié</option>
+                        <option value="en-attente">En attente (Contrat signé, rien versé)</option>
                         <option value="acompte">Acompte payé</option>
                         <option value="payé">Payé en totalité</option>
                     </select>
                 </div>
 
-                <!-- Notes -->
                 <div class="space-y-1 md:col-span-2">
-                    <label class="text-xs font-semibold text-slate-500">Notes / Informations complémentaires</label>
-                    <textarea id="form-expense-notes" rows="2" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Rendez-vous dégustation..."></textarea>
+                    <label class="text-xs font-semibold text-slate-500">Notes / Précisions</label>
+                    <textarea id="form-expense-notes" rows="2" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400" placeholder="Ex: Conditions du contrat..."></textarea>
                 </div>
             </div>
 
@@ -620,19 +617,20 @@
     </div>
 </div>
 
-<!-- Notification Container -->
+<!-- Toast notifications -->
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-
-<!-- ================= JAVASCRIPT LOGIC WITH FIREBASE & GEMINI ================= -->
+<!-- ================= JAVASCRIPT LOGIC ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+// Configuration Firebase complète et visible intégrant votre Realtime Database URL
 const firebaseConfig = {
     apiKey: "AIzaSyCs7LWvvEVkT4DXTqv7RnAwF5qguhliPN8",
     authDomain: "fahh-f9ec5.firebaseapp.com",
+    databaseURL: "https://fahh-f9ec5-default-rtdb.firebaseio.com",
     projectId: "fahh-f9ec5",
     storageBucket: "fahh-f9ec5.firebasestorage.app",
     messagingSenderId: "199693559715",
@@ -640,16 +638,15 @@ const firebaseConfig = {
     measurementId: "G-640VWEEJ02"
 };
 
-// Initialize Firebase
+// Initialisation de l'application Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'fahh-f9ec5';
-let userId = null;
-let syncTimeout = null;
+let weddingCode = null;
+let syncUnsubscribe = null;
 
-// Predefined Category Info
 const CATEGORIES = {
     catering: { name: 'Traiteur & Réception', color: 'rose', icon: 'fa-utensils' },
     venue: { name: 'Lieu & Logistique', color: 'amber', icon: 'fa-map-pin' },
@@ -662,7 +659,7 @@ const CATEGORIES = {
     other: { name: 'Autres', color: 'slate', icon: 'fa-box-open' }
 };
 
-// Initial Marriage Data Model in Ariary (Realistic values)
+// Default structures if no cloud data is present
 let marriageData = {
     budgetLimit: 35000000,
     expenses: [
@@ -672,14 +669,14 @@ let marriageData = {
         { id: "4", name: "Costume 3 pièces marié", category: "attire", estimated: 1500000, paid: 0, status: "planifié", notes: "Couleur bleu nuit avec accessoires." },
         { id: "5", name: "Duo d'alliances en or", category: "admin", estimated: 2000000, paid: 0, status: "en-attente", notes: "Gravures personnalisées des prénoms." },
         { id: "6", name: "Reportage Photo Complet", category: "media", estimated: 3000000, paid: 1000000, status: "acompte", notes: "De la préparation jusqu'à l'ouverture de bal." },
-        { id: "7", name: "Décoration Florale & Bouquet", category: "decor", estimated: 1800000, paid: 0, status: "planifié", notes: "Thème bohème chic chic, fleurs de saison blanches et eucalyptus." },
+        { id: "7", name: "Décoration Florale & Bouquet", category: "decor", estimated: 1800000, paid: 0, status: "planifié", notes: "Thème bohème chic chic, fleurs de saison blanches." },
         { id: "8", name: "DJ & Éclairage piste de danse", category: "entertainment", estimated: 2200000, paid: 500000, status: "acompte", notes: "Playlists personnalisées selon nos goûts." },
         { id: "9", name: "Faire-parts & Invitations", category: "stationery", estimated: 600000, paid: 600000, status: "payé", notes: "Design floral envoyé aux invités." },
         { id: "10", name: "Frais de dossier administratif", category: "admin", estimated: 300000, paid: 300000, status: "payé", notes: "Papiers d'état civil." }
     ]
 };
 
-// Virtual Try-on Outfits (SVG templates)
+// SVG Mannequin Clothing Assets
 const OUTFITS = [
     {
         id: "robe_princesse",
@@ -703,24 +700,9 @@ const OUTFITS = [
             <path d="M160 210 C160 200 170 195 200 205 C230 195 240 200 240 210 C240 220 250 250 260 290 C220 295 180 295 140 290 C150 250 160 220 160 210 Z" fill="url(#dressGrad)" stroke="#fecdd3" stroke-width="1.5" />
             <path d="M160 210 C180 220 200 215 200 215 C200 215 220 220 240 210" fill="none" stroke="#fda4af" stroke-width="2" />
             <path d="M140 290 C100 350 40 450 30 500 L370 500 C360 450 300 350 260 290 C220 305 180 305 140 290 Z" fill="url(#dressGrad)" stroke="#fde2e4" stroke-width="2" />
-            <path d="M 40 490 Q 70 470 100 490 Q 130 470 160 490 Q 190 470 220 490 Q 250 470 280 490 Q 310 470 340 490 Q 360 480 365 490" fill="none" stroke="#fbcfe8" stroke-width="2" />
-            <path d="M 50 470 Q 100 450 150 470 Q 200 450 250 470 Q 300 450 350 470" fill="none" stroke="#fbcfe8" opacity="0.6" stroke-width="1.5" />
-            <circle cx="200" cy="225" r="3" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
-            <circle cx="185" cy="222" r="2.5" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
-            <circle cx="215" cy="222" r="2.5" fill="#ffffff" stroke="#fb7185" stroke-width="0.5" />
-            <g transform="translate(200, 300)">
-                <ellipse cx="0" cy="0" rx="25" ry="15" fill="#fecdd3" stroke="#fda4af" />
-                <circle cx="-10" cy="-5" r="10" fill="#fbcfe8" />
-                <circle cx="10" cy="-5" r="10" fill="#ffe4e6" />
-                <circle cx="0" cy="8" r="11" fill="#fecdd3" />
-                <path d="M -25 0 Q -35 -10 -25 -15 Q -15 -10 -25 0" fill="#a7f3d0" />
-                <path d="M 25 0 Q 35 -10 25 -15 Q 15 -10 25 0" fill="#a7f3d0" />
-            </g>
             <g transform="translate(200, 85)">
                 <path d="M -45 5 C -35 -15 -15 -30 0 -30 C 15 -30 35 -15 45 5 C 30 0 15 -5 0 -5 C -15 -5 -30 0 -45 5 Z" fill="url(#tiaraGrad)" stroke="#d97706" stroke-width="1" />
                 <polygon points="0,-35 -8,-15 8,-15" fill="url(#tiaraGrad)" />
-                <polygon points="-20,-28 -25,-10 -12,-10" fill="url(#tiaraGrad)" />
-                <polygon points="20,-28 12,-10 25,-10" fill="url(#tiaraGrad)" />
                 <circle cx="0" cy="-38" r="4.5" fill="#ffe4e6" stroke="#d97706" />
             </g>
         </svg>`
@@ -744,20 +726,12 @@ const OUTFITS = [
             <g transform="translate(200, 195)">
                 <polygon points="0,0 -18,-10 -18,10" fill="#020617" />
                 <polygon points="0,0 18,-10 18,10" fill="#020617" />
-                <circle cx="0" cy="0" r="4.5" fill="#0f172a" />
             </g>
-            <g transform="translate(145, 230)">
-                <path d="M 0 0 L 10 15" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" />
-                <circle cx="0" cy="0" r="6" fill="#f43f5e" />
-                <circle cx="-3" cy="-3" r="4" fill="#fda4af" />
-            </g>
-            <path d="M 130 250 L 145 240 L 155 250 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.5" />
-            <rect x="125" y="250" width="35" height="4" fill="#0f172a" />
         </svg>`
     },
     {
         id: "robe_boheme",
-        name: "Dentelle Bohème & Fleurs",
+        name: "Dentelle Bohème",
         type: "f",
         bgColor: "#FCFBF7",
         svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -769,54 +743,22 @@ const OUTFITS = [
                 </linearGradient>
             </defs>
             <rect width="400" height="500" fill="#fafaf9" opacity="0.3" />
-            <path d="M 148 185 C 150 200 155 210 160 215" fill="none" stroke="#e7e5e4" stroke-width="6" stroke-linecap="round" />
-            <path d="M 252 185 C 250 200 245 210 240 215" fill="none" stroke="#e7e5e4" stroke-width="6" stroke-linecap="round" />
             <path d="M 160 215 C 180 235 200 235 200 235 C 200 235 220 235 240 215 L 255 280 C 200 290 200 290 145 280 Z" fill="url(#bohoGrad)" stroke="#d6d3d1" stroke-width="1" />
             <path d="M 145 280 C 110 330 90 440 80 500 L 320 500 C 310 440 290 330 255 280 Z" fill="url(#bohoGrad)" stroke="#e7e5e4" stroke-width="1.5" />
-            <path d="M 170 285 C 160 350 150 420 140 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
-            <path d="M 200 288 C 200 355 200 425 200 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
-            <path d="M 230 285 C 240 350 250 420 260 500" fill="none" stroke="#d6d3d1" stroke-width="1" stroke-dasharray="4,4" />
             <g transform="translate(200, 75)">
-                <path d="M -48 10 Q -10 -25 48 10" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round" />
-                <circle cx="-35" cy="-2" r="7" fill="#fda4af" /> <circle cx="-35" cy="-2" r="3" fill="#fef08a" />
-                <circle cx="-15" cy="-11" r="8" fill="#fbcfe8" /> <circle cx="-15" cy="-11" r="3" fill="#ffffff" />
-                <circle cx="10" cy="-11" r="9" fill="#fecdd3" /> <circle cx="10" cy="-11" r="3.5" fill="#fef08a" />
-                <circle cx="32" cy="-2" r="7.5" fill="#c084fc" /> <circle cx="32" cy="-2" r="2.5" fill="#ffffff" />
-            </g>
-        </svg>`
-    },
-    {
-        id: "costume_bleu",
-        name: "Costume Ajusté Bleu Ciel",
-        type: "m",
-        bgColor: "#F0FDFA",
-        svg: `<svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="blueSuitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#0284c7"/>
-                    <stop offset="100%" stop-color="#0369a1"/>
-                </linearGradient>
-            </defs>
-            <rect width="400" height="500" fill="#f0fdfa" opacity="0.3" />
-            <path d="M 100 215 L 150 185 C 150 185 170 235 200 235 C 230 235 250 185 250 185 L 300 215 L 315 500 L 85 500 Z" fill="url(#blueSuitGrad)" />
-            <path d="M 160 185 L 200 250 L 240 185 Z" fill="#ffffff" />
-            <g transform="translate(200, 190)">
-                <polygon points="-7,0 7,0 4,12 -4,12" fill="#fb7185" />
-                <polygon points="-4,12 4,12 8,80 0,95 -8,80" fill="#f43f5e" />
-            </g>
-            <g transform="translate(148, 222)">
-                <circle cx="0" cy="0" r="5" fill="#ffffff" />
-                <circle cx="-4" cy="-3" r="3" fill="#fed7aa" />
+                <circle cx="-35" cy="-2" r="7" fill="#fda4af" />
+                <circle cx="-15" cy="-11" r="8" fill="#fbcfe8" />
+                <circle cx="10" cy="-11" r="9" fill="#fecdd3" />
+                <circle cx="32" cy="-2" r="7.5" fill="#c084fc" />
             </g>
         </svg>`
     }
 ];
 
-// Active State Trackers
 let activeTab = "dashboard";
 let faceImage = null; 
 let selectedOutfit = OUTFITS[0]; 
-let faceLayerOrder = "behind"; // "behind" (traditional cutout) or "front" (ideal for imported full-image outfits)
+let faceLayerOrder = "behind"; // behind | front
 
 let faceTransform = {
     x: 200, 
@@ -832,36 +774,165 @@ let startDragX = 0;
 let startDragY = 0;
 let baseFaceX = 0;
 let baseFaceY = 0;
-let mediaStream = null; 
+let mediaStream = null;
 
-// Rule 3: Auth before Queries & Rule 1: Use specific Firestore path
-async function initializeDatabase() {
+// ================= COOPERATIVE DATABASE ENGINE (RULE 1, 2, 3) =================
+async function initializeRealTimeDatabase() {
     updateCloudIndicator('connecting');
     try {
-        const userCredential = await signInAnonymously(auth);
-        userId = userCredential.user.uid;
-        
-        // Setup direct load from strict user path
-        const userSettingsDocRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'marriageData');
-        const docSnap = await getDoc(userSettingsDocRef);
-        
-        if (docSnap.exists()) {
-            marriageData = docSnap.data();
-            showToast("Données chargées depuis votre Cloud !", "success");
-        } else {
-            // Save initial defaults to cloud
-            await setDoc(userSettingsDocRef, marriageData);
-            showToast("Initialisation de votre budget sécurisée sur le Cloud.", "success");
+        let user = auth.currentUser;
+        if (!user) {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
+                    user = userCred.user;
+                } catch (tokenError) {
+                    console.warn("Custom token mismatched/expired. Falling back to anonymous sign-in...", tokenError);
+                    const userCred = await signInAnonymously(auth);
+                    user = userCred.user;
+                }
+            } else {
+                const userCred = await signInAnonymously(auth);
+                user = userCred.user;
+            }
         }
-        updateCloudIndicator('synced');
+
+        // Si l'utilisateur n'est toujours pas authentifié, on bascule en mode local
+        if (!user) {
+            updateCloudIndicator('offline');
+            return;
+        }
+
+        // Génère ou charge le code collaboratif
+        const urlParams = new URLSearchParams(window.location.search);
+        weddingCode = urlParams.get('code') || localStorage.getItem('collab_wedding_code');
+
+        if (!weddingCode) {
+            weddingCode = 'MAR-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        }
+
+        // Sauvegarde & synchronisation de l'état de l'URL
+        localStorage.setItem('collab_wedding_code', weddingCode);
+        document.getElementById('wedding-code-display').innerText = weddingCode;
+        updateUrlQuery(weddingCode);
+
+        // Règle 1 : Utilisation stricte des chemins publics autorisés pour les éléments partagés
+        const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'weddings', weddingCode);
+        
+        // Écoute en direct en temps réel (onSnapshot)
+        if (syncUnsubscribe) syncUnsubscribe();
+        
+        syncUnsubscribe = onSnapshot(publicDocRef, (docSnap) => {
+            // Règle 3 : On garde chaque opération Firestore sous surveillance d'authentification active
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            if (docSnap.exists()) {
+                const incomingData = docSnap.data();
+                if (incomingData && Array.isArray(incomingData.expenses)) {
+                    marriageData = incomingData;
+                    refreshApplicationUI();
+                }
+            } else {
+                setDoc(publicDocRef, marriageData);
+                refreshApplicationUI();
+            }
+            updateCloudIndicator('synced');
+        }, (err) => {
+            console.error("Firestore listening failed:", err);
+            updateCloudIndicator('offline');
+            showToast("Problème de connexion. Fonctionnement en mémoire locale.", "error");
+        });
+
     } catch (error) {
-        console.error("Database connection failed: ", error);
+        console.error("Database connection initialization error: ", error);
         updateCloudIndicator('offline');
-        showToast("Échec de synchronisation avec Firebase. Utilisation hors-ligne active.", "error");
+        showToast("Erreur d'initialisation de la synchronisation.", "error");
+        refreshApplicationUI();
+    }
+}
+
+async function triggerLiveSave() {
+    // Règle 3 : S'assurer de l'authentification active avant d'écrire
+    const user = auth.currentUser;
+    if (!user) return;
+
+    if (!weddingCode) return;
+    updateCloudIndicator('connecting');
+    try {
+        const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'weddings', weddingCode);
+        await setDoc(publicDocRef, marriageData);
+        updateCloudIndicator('synced');
+    } catch (err) {
+        console.error("Firestore writing error: ", err);
+        updateCloudIndicator('offline');
+    }
+}
+
+function updateUrlQuery(code) {
+    try {
+        // Ignorer si nous sommes dans un environnement de prévisualisation "blob:"
+        if (window.location.protocol === 'blob:') {
+            console.log("Environnement blob détecté. Mise à jour de l'URL ignorée.");
+            return;
+        }
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?code=' + code;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+    } catch (e) {
+        console.warn("Impossible de mettre à jour l'URL (environnement restreint ou bac à sable) :", e);
+    }
+}
+
+function copyShareLink() {
+    let inviteLink = "";
+    
+    // Si nous sommes dans un aperçu blob, on copie directement le code de mariage
+    if (window.location.protocol === 'blob:') {
+        inviteLink = weddingCode;
+        const tempInput = document.createElement('input');
+        tempInput.value = inviteLink;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        tempInput.remove();
+        showToast("Aperçu local : Code '" + weddingCode + "' copié ! Saisissez-le via 'Rejoindre un code' sur l'autre appareil.", "success");
+        return;
     }
 
-    // Initialize UI Elements
-    initApp();
+    inviteLink = window.location.protocol + "//" + window.location.host + window.location.pathname + '?code=' + weddingCode;
+    
+    // Copie sécurisée dans un iframe
+    const tempInput = document.createElement('input');
+    tempInput.value = inviteLink;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    tempInput.remove();
+
+    showToast("Lien de synchronisation partagé copié ! Ouvrez-le sur un autre appareil.", "success");
+}
+
+function toggleJoinSection() {
+    const el = document.getElementById('join-section');
+    el.classList.toggle('hidden');
+}
+
+function joinWeddingWithCode() {
+    const inputCode = document.getElementById('join-code-input').value.trim().toUpperCase();
+    if (!inputCode || !inputCode.startsWith("MAR-")) {
+        showToast("Le format du code est incorrect (ex: MAR-A3DF).", "error");
+        return;
+    }
+
+    weddingCode = inputCode;
+    localStorage.setItem('collab_wedding_code', weddingCode);
+    document.getElementById('wedding-code-display').innerText = weddingCode;
+    updateUrlQuery(weddingCode);
+    
+    // Rerun real-time setup
+    initializeRealTimeDatabase();
+    document.getElementById('join-section').classList.add('hidden');
+    showToast("Chargement du nouveau projet de mariage en cours...", "success");
 }
 
 function updateCloudIndicator(status) {
@@ -869,41 +940,23 @@ function updateCloudIndicator(status) {
     if (!el) return;
     if (status === 'synced') {
         el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 gap-1";
-        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sauvegardé`;
+        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Synchro active (Temps Réel)`;
     } else if (status === 'connecting') {
         el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-800 border border-amber-200 gap-1";
         el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Synchronisation...`;
     } else {
         el.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-50 text-rose-800 border border-rose-200 gap-1";
-        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Hors-ligne`;
+        el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Mode Local (Hors-ligne)`;
     }
 }
 
-// Queue database save to avoid spamming Firestore
-function triggerCloudSave() {
-    updateCloudIndicator('connecting');
-    if (syncTimeout) clearTimeout(syncTimeout);
-    syncTimeout = setTimeout(async () => {
-        if (!userId) return;
-        try {
-            const userSettingsDocRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'marriageData');
-            await setDoc(userSettingsDocRef, marriageData);
-            updateCloudIndicator('synced');
-        } catch (error) {
-            console.error("Cloud saving failed: ", error);
-            updateCloudIndicator('offline');
-        }
-    }, 1200);
-}
-
-// ================= APP INITIALIZATION =================
-function initApp() {
+// ================= APP UI LOGIC =================
+function refreshApplicationUI() {
     renderDashboard();
     renderExpensesList();
     initFittingRoom();
 }
 
-// Formatter with local Ariary currency convention (Ar)
 function formatCurrency(amount) {
     return new Intl.NumberFormat('fr-MG', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount) + " Ar";
 }
@@ -969,10 +1022,7 @@ function renderDashboard() {
         totalPaid += exp.paid;
     });
 
-    // CRITICAL USER UPDATE: Reste à payer aux prestataires
     const remainingToPay = totalSpent - totalPaid;
-    const remainingBudget = totalBudget - totalSpent;
-    
     const spentPercent = Math.min(100, (totalSpent / totalBudget) * 100);
     const paidPercent = Math.min(100, (totalPaid / totalBudget) * 100);
     const remainingPercent = Math.max(0, 100 - spentPercent);
@@ -980,12 +1030,9 @@ function renderDashboard() {
     document.getElementById('stat-total-budget').innerText = formatCurrency(totalBudget);
     document.getElementById('stat-total-spent').innerText = formatCurrency(totalSpent);
     document.getElementById('stat-total-paid').innerText = formatCurrency(totalPaid);
-    
-    // CRITICAL UPDATE: Set Reste à payer aux prestataires (outstanding funds)
     document.getElementById('stat-remaining-to-pay').innerText = formatCurrency(remainingToPay);
 
-    const spentPercentageEl = document.getElementById('stat-spent-percentage');
-    spentPercentageEl.innerText = `${spentPercent.toFixed(1)}% du budget`;
+    document.getElementById('stat-spent-percentage').innerText = `${spentPercent.toFixed(1)}% du budget estimé`;
 
     const dashOffset = 502.6 - (502.6 * (spentPercent / 100));
     document.getElementById('gauge-fill').setAttribute('stroke-dashoffset', dashOffset);
@@ -1045,7 +1092,7 @@ function renderCategoryBreakdown(totalBudget) {
     if (marriageData.expenses.length === 0) {
         listContainer.innerHTML = `
             <div class="text-center py-8 text-slate-400 text-sm">
-                Aucune dépense planifiée pour le moment. Allez sur l'onglet <strong class="text-rose-500 cursor-pointer" onclick="switchTab('expenses')">Budget & Dépenses</strong> pour commencer.
+                Aucune charge enregistrée. Allez sur l'onglet <strong class="text-rose-500 cursor-pointer" onclick="switchTab('expenses')">Dépenses</strong> pour commencer.
             </div>
         `;
     }
@@ -1109,7 +1156,6 @@ function renderExpensesList() {
         emptyState.classList.add('hidden');
         
         filtered.forEach(exp => {
-            // CRITICAL: Calculate reste à payer per item
             const itemReste = exp.estimated - exp.paid;
             
             const rowHtml = `
@@ -1159,8 +1205,8 @@ function saveBudgetLimit() {
         marriageData.budgetLimit = value;
         renderDashboard();
         closeBudgetModal();
-        triggerCloudSave();
-        showToast("Budget global mis à jour avec succès !", "success");
+        triggerLiveSave();
+        showToast("Budget global mis à jour !", "success");
     } else {
         showToast("Veuillez saisir un montant supérieur à 0.", "error");
     }
@@ -1218,32 +1264,32 @@ function handleExpenseFormSubmit(event) {
     } else {
         const newId = Date.now().toString();
         marriageData.expenses.push({ id: newId, name, category, estimated, paid, status, notes });
-        showToast("Nouveau poste budgétaire ajouté !");
+        showToast("Nouveau poste ajouté !");
     }
 
     closeExpenseModal();
     renderExpensesList();
     renderDashboard();
-    triggerCloudSave();
+    triggerLiveSave();
 }
 
 function deleteExpense(id) {
     marriageData.expenses = marriageData.expenses.filter(e => e.id !== id);
-    showToast("Dépense retirée du budget.", "success");
+    showToast("Dépense retirée.");
     renderExpensesList();
     renderDashboard();
-    triggerCloudSave();
+    triggerLiveSave();
 }
 
 function exportData() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(marriageData));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "budget_mariage_backup.json");
+    downloadAnchor.setAttribute("download", `budget_mariage_${weddingCode}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
-    showToast("Export JSON effectué avec succès !");
+    showToast("Export JSON téléchargé avec succès !");
 }
 
 function importData(event) {
@@ -1258,8 +1304,8 @@ function importData(event) {
                 marriageData = parsed;
                 renderDashboard();
                 renderExpensesList();
-                triggerCloudSave();
-                showToast("Fichier de budget importé avec succès !", "success");
+                triggerLiveSave();
+                showToast("Fichier de budget importé !", "success");
             } else {
                 showToast("Fichier invalide : Format de données incompatible.", "error");
             }
@@ -1270,6 +1316,7 @@ function importData(event) {
     reader.readAsText(file);
 }
 
+// ================= COOPERATIVE TRY-ON ENGINE =================
 function initFittingRoom() {
     renderOutfitSelector();
 
@@ -1331,7 +1378,6 @@ function selectOutfit(id) {
         activeCard.classList.add('border-rose-500', 'bg-rose-50/40', 'shadow-sm');
     }
 
-    // Smart logic: For custom uploaded outfits, we might want the face on top of the image by default.
     if (outfit.isCustom) {
         setFaceLayerOrder("front");
     } else {
@@ -1353,14 +1399,13 @@ function loadFaceImage(event) {
             document.getElementById('face-loaded-indicator').classList.remove('hidden');
             document.getElementById('canvas-placeholder').classList.add('hidden');
             resetFaceTransform();
-            showToast("Visage chargé ! Ajustez-le sur le canevas.", "success");
+            showToast("Visage chargé ! Ajustez la taille et déplacez-le.", "success");
         };
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 }
 
-// USER DIRECTIVE: PARCOURIR ET IMPORTER SES TYPES DE VETEMENT
 function loadCustomOutfit(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -1372,27 +1417,23 @@ function loadCustomOutfit(event) {
             const customId = "custom_" + Date.now();
             const newOutfit = {
                 id: customId,
-                name: file.name.split('.')[0] || "Tenue Importée",
+                name: file.name.split('.')[0] || "Tenue Personnalisée",
                 isCustom: true,
                 bgColor: "#F8FAFC",
                 imageElement: img
             };
             
-            // Add custom outfit to list
             OUTFITS.push(newOutfit);
-            
-            // Select and refresh list
             renderOutfitSelector();
             selectOutfit(customId);
             
-            showToast("Tenue importée avec succès ! Utilisez les filtres d'ajustement.", "success");
+            showToast("Votre tenue personnalisée a été importée !", "success");
         };
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 }
 
-// Face Layer order toggle for blending versatility
 function setFaceLayerOrder(order) {
     faceLayerOrder = order;
     
@@ -1410,7 +1451,6 @@ function setFaceLayerOrder(order) {
     drawFittingCanvas();
 }
 
-// Camera activation
 async function toggleWebcam() {
     const webcamContainer = document.getElementById('webcam-container');
     const webcamBtnText = document.getElementById('webcam-btn-text');
@@ -1423,7 +1463,7 @@ async function toggleWebcam() {
             webcamContainer.classList.remove('hidden');
             webcamBtnText.innerText = "Fermer Caméra";
         } catch(err) {
-            showToast("Impossible d'accéder à l'appareil photo/caméra.", "error");
+            showToast("L'accès webcam a échoué.", "error");
         }
     } else {
         stopWebcam();
@@ -1466,7 +1506,7 @@ function captureFromWebcam() {
         
         resetFaceTransform();
         stopWebcam();
-        showToast("Photo capturée avec succès !", "success");
+        showToast("Photo prise avec succès !", "success");
     };
     img.src = dataUrl;
 }
@@ -1592,11 +1632,9 @@ function drawFittingCanvas() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. Draw Background
     ctx.fillStyle = selectedOutfit.bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Guidance guide for face if no photo uploaded
     if (!faceImage) {
         ctx.strokeStyle = "rgba(244, 63, 94, 0.2)";
         ctx.lineWidth = 1.5;
@@ -1607,7 +1645,6 @@ function drawFittingCanvas() {
         ctx.setLineDash([]);
     }
 
-    // Helper to draw user's face with CSS-like filter transforms
     const drawFace = () => {
         if (faceImage) {
             ctx.save();
@@ -1624,10 +1661,8 @@ function drawFittingCanvas() {
         }
     };
 
-    // Helper to draw selected garment (either Built-in SVG or Custom Uploaded Image)
     const drawOutfit = () => {
         if (selectedOutfit.isCustom && selectedOutfit.imageElement) {
-            // Draw custom uploaded image, fit neatly inside canvas
             const img = selectedOutfit.imageElement;
             const ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
             const w = img.width * ratio;
@@ -1636,7 +1671,6 @@ function drawFittingCanvas() {
             const y = (canvas.height - h) / 2;
             ctx.drawImage(img, x, y, w, h);
         } else {
-            // Draw SVG
             const svgString = selectedOutfit.svg;
             const imgSvg = new Image();
             const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
@@ -1650,7 +1684,6 @@ function drawFittingCanvas() {
         }
     };
 
-    // 2. Multi-layer drawing based on toggle
     if (faceLayerOrder === "behind") {
         drawFace();
         drawOutfit();
@@ -1662,7 +1695,7 @@ function drawFittingCanvas() {
 
 function downloadSimulation() {
     if (!faceImage) {
-        showToast("Veuillez d'abord uploader votre visage pour l'enregistrer !", "error");
+        showToast("Veuillez uploader votre visage pour sauvegarder la simulation.", "error");
         return;
     }
 
@@ -1670,55 +1703,49 @@ function downloadSimulation() {
     const dataUrl = canvas.toDataURL('image/png');
     const downloadAnchor = document.createElement('a');
     downloadAnchor.href = dataUrl;
-    downloadAnchor.download = `simulation_mariage_${selectedOutfit.id}.png`;
+    downloadAnchor.download = `simulation_mariage_${weddingCode}.png`;
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
 
-    showToast("Votre simulation d'essayage a été enregistrée !", "success");
+    showToast("Votre création d'essayage a été enregistrée avec succès !", "success");
 }
 
-// USER REQUEST: METTRE GEMINI SUR LE SITE SURTOUT DANS L'ESSAYAGE
+// ================= GEMINI AI MODE EXPERT PANEL =================
 async function askGeminiStylist() {
     const theme = document.getElementById('gemini-wedding-theme').value;
     const userPrompt = document.getElementById('gemini-user-prompt').value;
     const responseContainer = document.getElementById('gemini-advisor-response');
     const loader = document.getElementById('gemini-loader');
 
-    // Display loader and reset container
     loader.classList.remove('hidden');
     responseContainer.classList.add('hidden');
 
     const selectedOutfitName = selectedOutfit.name;
-    const apiKey = ""; // Canvas supplies apiKey automatically during runtime.
+    const apiKey = ""; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-    const systemPrompt = "Tu es un styliste de mariage expert et de renommée mondiale. Donne des conseils élégants, raffinés, encourageants et pratiques en français sur l'association des tenues, des coiffures, des fleurs et des accessoires de mariage selon le thème choisi. Structure ton texte avec des listes à puces aérées pour une excellente lisibilité.";
+    const systemPrompt = "Tu es un styliste de mariage expert de renommée mondiale. Donne des recommandations de style ultra élégantes, positives et professionnelles en français pour parfaire le look de mariage selon le thème et l'habit choisi. Structure ton retour de manière aérée et moderne avec des listes d'accessoires.";
     
-    const prompt = `Je planifie mon mariage avec un thème "${theme}". 
-    J'ai sélectionné la tenue suivante dans mon salon d'essayage : "${selectedOutfitName}".
+    const prompt = `Je planifie mon mariage sur un thème "${theme}". 
+    Pour mon salon d'essayage virtuel, j'ai sélectionné le vêtement de mariage : "${selectedOutfitName}".
     
-    Donne-moi des conseils d'expert de mode de mariage pour accessoiriser cette tenue (type de chaussures, bouquet de fleurs, bijoux, coiffure ou chapeau). 
-    ${userPrompt ? `Réponds aussi précisément à ma question personnelle suivante : "${userPrompt}"` : ""}`;
+    Donne-moi des recommandations mode pointues et élégantes pour accessoiriser idéalement ce vêtement (bijoux, couronne/coiffure, bouquet, style de costume, chaussures).
+    ${userPrompt ? `De plus, réponds spécifiquement à cette question de style : "${userPrompt}"` : ""}`;
 
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
-        systemInstruction: {
-            parts: [{ text: systemPrompt }]
-        }
+        systemInstruction: { parts: [{ text: systemPrompt }] }
     };
 
     try {
-        // Implement fetch call to Gemini
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
-        if (!response.ok) {
-            throw new Error(`API response error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error("Erreur de requête");
 
         const result = await response.json();
         const candidate = result.candidates?.[0];
@@ -1726,7 +1753,6 @@ async function askGeminiStylist() {
         if (candidate && candidate.content?.parts?.[0]?.text) {
             const adviceText = candidate.content.parts[0].text;
             
-            // Format some basic markdown stars/bold on the fly for elegance
             let formattedAdvice = adviceText
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -1734,18 +1760,18 @@ async function askGeminiStylist() {
 
             responseContainer.innerHTML = `<div class="space-y-2 text-slate-700 font-sans">${formattedAdvice}</div>`;
         } else {
-            responseContainer.innerHTML = `<p class="text-rose-500">Désolé, l'IA Gemini n'a pas pu générer de réponse. Essayez à nouveau.</p>`;
+            responseContainer.innerHTML = `<p class="text-rose-500">Désolé, Gemini Styliste n'a pas pu traiter la demande actuellement. Veuillez réessayer.</p>`;
         }
     } catch (error) {
-        console.error("Gemini API Call failed: ", error);
-        responseContainer.innerHTML = `<p class="text-rose-500">Une erreur s'est produite lors de la communication avec le conseiller de style Gemini. Vérifiez votre connexion.</p>`;
+        console.error("Gemini API error: ", error);
+        responseContainer.innerHTML = `<p class="text-rose-500">Échec de communication avec Gemini Styliste. Vérifiez vos réglages réseau.</p>`;
     } finally {
         loader.classList.add('hidden');
         responseContainer.classList.remove('hidden');
     }
 }
 
-// Attach functions explicitly to global window scope for HTML onclick events
+// Bind functions to window context
 window.switchTab = switchTab;
 window.openBudgetModal = openBudgetModal;
 window.closeBudgetModal = closeBudgetModal;
@@ -1768,10 +1794,12 @@ window.updateFaceTransform = updateFaceTransform;
 window.resetFaceTransform = resetFaceTransform;
 window.downloadSimulation = downloadSimulation;
 window.askGeminiStylist = askGeminiStylist;
+window.copyShareLink = copyShareLink;
+window.toggleJoinSection = toggleJoinSection;
+window.joinWeddingWithCode = joinWeddingWithCode;
 
-// Initialize app with Firebase on load
 window.addEventListener('DOMContentLoaded', () => {
-    initializeDatabase();
+    initializeRealTimeDatabase();
 });
 </script>
 </body>
