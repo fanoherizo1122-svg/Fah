@@ -63,11 +63,14 @@
                 <!-- Collaborative Synchronization Controls -->
                 <div class="flex flex-wrap items-center gap-3 bg-pink-50/50 p-2 rounded-2xl border border-pink-100/50">
                     <div class="text-xs font-semibold text-rose-800 px-2">
-                        <span class="block text-[10px] text-pink-500 uppercase">Projet Partagé :</span>
+                        <span class="block text-[10px] text-pink-500 uppercase">Espace Collaboratif :</span>
                         <span id="wedding-code-display" class="font-mono text-sm tracking-wider font-bold">CHARGEMENT...</span>
                     </div>
                     <button onclick="copyShareLink()" class="bg-white hover:bg-rose-100 text-rose-600 border border-rose-200 py-1.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="Copier le lien d'invitation">
-                        <i class="fa-solid fa-link"></i> <span class="hidden sm:inline">Copier le lien de partage</span>
+                        <i class="fa-solid fa-link"></i> <span class="hidden sm:inline">Copier le lien</span>
+                    </button>
+                    <button onclick="createNewPrivateWedding()" class="bg-rose-500 hover:bg-rose-600 text-white py-1.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="Créer votre propre espace de mariage privé">
+                        <i class="fa-solid fa-circle-plus"></i> <span class="hidden sm:inline">Créer Espace Privé</span>
                     </button>
                     <div class="h-6 w-px bg-rose-200 hidden sm:block"></div>
                     <button onclick="toggleJoinSection()" class="text-slate-600 hover:text-rose-600 text-xs font-semibold px-2 py-1.5 rounded-lg">
@@ -807,14 +810,19 @@ async function initializeRealTimeDatabase() {
         const urlParams = new URLSearchParams(window.location.search);
         weddingCode = urlParams.get('code') || localStorage.getItem('collab_wedding_code');
 
+        // S'il n'y a aucun code, on utilise l'espace public "MAR-SHARED" pour assurer la synchro instantanée hors-partage de lien
         if (!weddingCode) {
-            weddingCode = 'MAR-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            weddingCode = 'MAR-SHARED';
         }
 
         // Sauvegarde & synchronisation de l'état de l'URL
         localStorage.setItem('collab_wedding_code', weddingCode);
         document.getElementById('wedding-code-display').innerText = weddingCode;
-        updateUrlQuery(weddingCode);
+        
+        // On n'ajoute l'URL query de partage que s'il s'agit d'un espace privé
+        if (weddingCode !== 'MAR-SHARED') {
+            updateUrlQuery(weddingCode);
+        }
 
         // Règle 1 : Utilisation stricte des chemins publics autorisés pour les éléments partagés
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'weddings', weddingCode);
@@ -849,6 +857,28 @@ async function initializeRealTimeDatabase() {
         updateCloudIndicator('offline');
         showToast("Erreur d'initialisation de la synchronisation.", "error");
         refreshApplicationUI();
+    }
+}
+
+async function createNewPrivateWedding() {
+    const newCode = 'MAR-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+    weddingCode = newCode;
+    localStorage.setItem('collab_wedding_code', weddingCode);
+    document.getElementById('wedding-code-display').innerText = weddingCode;
+    updateUrlQuery(weddingCode);
+    
+    // Écriture immédiate des données actuelles sur le nouvel espace privé
+    updateCloudIndicator('connecting');
+    try {
+        const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'weddings', weddingCode);
+        await setDoc(publicDocRef, marriageData);
+        
+        // Réinitialisation de la connexion temps réel
+        initializeRealTimeDatabase();
+        showToast("Espace privé créé ! Vos données actuelles y ont été transférées.", "success");
+    } catch (err) {
+        console.error("Erreur de transfert :", err);
+        showToast("Erreur lors du transfert de données.", "error");
     }
 }
 
@@ -1797,6 +1827,7 @@ window.askGeminiStylist = askGeminiStylist;
 window.copyShareLink = copyShareLink;
 window.toggleJoinSection = toggleJoinSection;
 window.joinWeddingWithCode = joinWeddingWithCode;
+window.createNewPrivateWedding = createNewPrivateWedding;
 
 window.addEventListener('DOMContentLoaded', () => {
     initializeRealTimeDatabase();
